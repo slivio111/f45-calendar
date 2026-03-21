@@ -200,8 +200,8 @@ body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);c
 /* CATALOG SECTION */
 .catalog-section { margin-top: var(--space-4); }
 .catalog-section-title { font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--color-text-faint); margin-bottom: var(--space-3); }
-.floor-plan { border-radius: var(--radius-md); padding: var(--space-3); margin-bottom: var(--space-4); min-height: 120px; max-height: 180px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-.floor-plan svg { max-width: 100%; max-height: 160px; }
+.floor-plan { border-radius: var(--radius-md); margin-bottom: var(--space-4); overflow: hidden; }
+.floor-plan img { width: 100%; height: auto; display: block; border-radius: var(--radius-md); }
 .workout-stats-mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); margin-bottom: var(--space-4); }
 .stat-mini { background: var(--color-surface-2); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); text-align: center; }
 .stat-mini .sm-label { font-size: .6rem; color: var(--color-text-faint); text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
@@ -496,113 +496,12 @@ function renderAll() {
 
 // ===== MODAL =====
 
-// ===== FLOOR PLAN SVG GENERATOR =====
-function generateFloorPlanSVG(type, podCount, stationCount, logoText) {
-  const w=320, h=150;
-  let svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+w+' '+h+'" width="'+w+'" height="'+h+'">';
-  
-  // Logo text watermark
-  svg+='<text x="'+w/2+'" y="'+h/2+'" text-anchor="middle" dominant-baseline="central" font-family="Inter,sans-serif" font-weight="800" font-size="28" fill="rgba(255,255,255,0.08)" letter-spacing="0.05em">'+(logoText||'')+'</text>';
-  
-  if(type==='racetrack'){
-    // Oval track with numbered stations
-    const cx=w/2, cy=h/2, rx=130, ry=50;
-    svg+='<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="6,4"/>';
-    // Direction arrow
-    svg+='<path d="M'+(cx+rx-10)+' '+(cy-12)+' l12 12 l-12 12" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>';
-    var n=Math.min(stationCount,14);
-    for(var i=0;i<n;i++){
-      var angle=-Math.PI/2 + (2*Math.PI*i/n);
-      var sx=cx+rx*Math.cos(angle);
-      var sy=cy+ry*Math.sin(angle);
-      svg+='<circle cx="'+sx.toFixed(1)+'" cy="'+sy.toFixed(1)+'" r="7" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>';
-      svg+='<text x="'+sx.toFixed(1)+'" y="'+(sy+0.5).toFixed(1)+'" text-anchor="middle" dominant-baseline="central" font-family="Inter,sans-serif" font-size="7" fill="rgba(255,255,255,0.8)" font-weight="700">'+(i+1)+'</text>';
-    }
-    svg+='<text x="'+cx+'" y="'+(h-8)+'" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="rgba(255,255,255,0.4)" font-weight="600">RACETRACK</text>';
-    
-  } else if(type==='pods'){
-    // Rectangular pods with station dots
-    var pods=podCount||3;
-    var podW=(w-40-(pods-1)*12)/pods;
-    var podH=h-40;
-    var stPerPod=Math.ceil(stationCount/pods);
-    for(var p=0;p<pods;p++){
-      var px=20+p*(podW+12);
-      var py=15;
-      svg+='<rect x="'+px+'" y="'+py+'" width="'+podW+'" height="'+podH+'" rx="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>';
-      svg+='<text x="'+(px+podW/2)+'" y="'+(py+12)+'" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="rgba(255,255,255,0.4)" font-weight="700">ПОД '+(p+1)+'</text>';
-      // Station dots in grid within pod
-      var cols=Math.min(stPerPod,3);
-      var rows=Math.ceil(stPerPod/cols);
-      for(var s=0;s<stPerPod;s++){
-        var sn=p*stPerPod+s+1;
-        if(sn>stationCount) break;
-        var col=s%cols;
-        var row=Math.floor(s/cols);
-        var dotX=px+podW/(cols+1)*(col+1);
-        var dotY=py+22+(podH-30)/(rows+1)*(row+1);
-        svg+='<circle cx="'+dotX.toFixed(1)+'" cy="'+dotY.toFixed(1)+'" r="6" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>';
-        svg+='<text x="'+dotX.toFixed(1)+'" y="'+(dotY+0.5).toFixed(1)+'" text-anchor="middle" dominant-baseline="central" font-family="Inter,sans-serif" font-size="6.5" fill="rgba(255,255,255,0.75)" font-weight="700">'+sn+'</text>';
-      }
-    }
-    svg+='<text x="'+w/2+'" y="'+(h-5)+'" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="rgba(255,255,255,0.4)" font-weight="600">PODS ('+pods+')</text>';
-    
-  } else if(type==='follow_the_leader'){
-    // Serpentine path
-    var amp=35, segments=4;
-    var pathD='M 30 '+(h/2);
-    for(var i=0;i<segments;i++){
-      var x1=30+(w-60)/segments*(i+0.5);
-      var y1=i%2===0?h/2-amp:h/2+amp;
-      var x2=30+(w-60)/segments*(i+1);
-      var y2=h/2;
-      pathD+=' Q '+x1.toFixed(1)+' '+y1.toFixed(1)+' '+x2.toFixed(1)+' '+y2.toFixed(1);
-    }
-    svg+='<path d="'+pathD+'" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="6,4"/>';
-    // Arrow at end
-    svg+='<path d="M'+(w-40)+' '+(h/2-8)+' l10 8 l-10 8" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>';
-    // Station dots along path
-    var n=Math.min(stationCount,18);
-    for(var i=0;i<n;i++){
-      var t=i/(n-1);
-      var sx=30+t*(w-60);
-      // Approximate Y on serpentine
-      var progress=t*segments;
-      var segIdx=Math.floor(progress);
-      var segT=progress-segIdx;
-      var baseY=h/2;
-      if(segIdx<segments){
-        var peakY=segIdx%2===0?h/2-amp:h/2+amp;
-        var midT=0.5;
-        if(segT<midT){
-          baseY=h/2+(peakY-h/2)*(segT/midT);
-        }else{
-          baseY=peakY+(h/2-peakY)*((segT-midT)/(1-midT));
-        }
-      }
-      svg+='<circle cx="'+sx.toFixed(1)+'" cy="'+baseY.toFixed(1)+'" r="7" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.45)" stroke-width="1"/>';
-      svg+='<text x="'+sx.toFixed(1)+'" y="'+(baseY+0.5).toFixed(1)+'" text-anchor="middle" dominant-baseline="central" font-family="Inter,sans-serif" font-size="7" fill="rgba(255,255,255,0.8)" font-weight="700">'+(i+1)+'</text>';
-    }
-    svg+='<text x="'+w/2+'" y="'+(h-5)+'" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="rgba(255,255,255,0.4)" font-weight="600">FOLLOW THE LEADER</text>';
-    
-  } else if(type==='open_floor'){
-    // Open rectangle with participant circles
-    svg+='<rect x="20" y="15" width="'+(w-40)+'" height="'+(h-35)+'" rx="8" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.15)" stroke-width="1.5" stroke-dasharray="8,4"/>';
-    // Scatter participant dots
-    var positions=[[0.15,0.25],[0.3,0.45],[0.5,0.3],[0.7,0.55],[0.85,0.35],[0.25,0.7],[0.45,0.65],[0.65,0.25],[0.8,0.7],[0.4,0.4],[0.6,0.6],[0.2,0.5]];
-    for(var i=0;i<Math.min(positions.length,12);i++){
-      var px=20+(w-40)*positions[i][0];
-      var py=15+(h-35)*positions[i][1];
-      svg+='<circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="5" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>';
-    }
-    // TV icon in center
-    svg+='<rect x="'+(w/2-12)+'" y="'+(h/2-8)+'" width="24" height="16" rx="2" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>';
-    svg+='<text x="'+w/2+'" y="'+h/2+'" text-anchor="middle" dominant-baseline="central" font-family="Inter,sans-serif" font-size="6" fill="rgba(255,255,255,0.4)">TV</text>';
-    svg+='<text x="'+w/2+'" y="'+(h-5)+'" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="rgba(255,255,255,0.4)" font-weight="600">OPEN FLOOR</text>';
-  }
-  
-  svg+='</svg>';
-  return svg;
+// ===== FLOOR PLAN IMAGE (from F45 2025 catalogue) =====
+function generateFloorPlanSVG(type, podCount, stationCount, workoutName) {
+  // Map workout name to filename
+  const name = (workoutName||'').toLowerCase()
+    .replace(/\s+/g,'_').replace(/\//g,'_').replace(/\?/g,'').replace(/'/g,'');
+  return '<img src="floorplans/'+name+'.png" alt="Floor plan" onerror="this.style.display='none'">';
 }
 
 function openModal(day) {
