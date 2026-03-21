@@ -501,7 +501,7 @@ function generateFloorPlanSVG(type, podCount, stationCount, workoutName) {
   // Map workout name to filename
   const name = (workoutName||'').toLowerCase()
     .replace(/\s+/g,'_').replace(/\//g,'_').replace(/\?/g,'').replace(/'/g,'');
-  return '<img src="floorplans/'+name+'.png" alt="Floor plan" onerror="this.style.display='none'">';
+  return `<img src="floorplans/${name}.png" alt="Floor plan" onerror="this.style.display='none'">`;
 }
 
 function openModal(day) {
