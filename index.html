@@ -3,557 +3,193 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>F45 Phase 4 — Календарь тренировок</title>
+<title>F45 — Календарь тренировок 2026</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-/* ===== RESET & TOKENS ===== */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-:root {
-  --font-body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-
-  --text-xs:   clamp(0.7rem, 0.65rem + 0.25vw, 0.8rem);
-  --text-sm:   clamp(0.8rem, 0.75rem + 0.25vw, 0.9rem);
-  --text-base: clamp(0.9rem, 0.85rem + 0.25vw, 1rem);
-  --text-lg:   clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
-  --text-xl:   clamp(1.4rem, 1.1rem + 1vw, 2rem);
-  --text-2xl:  clamp(1.8rem, 1.2rem + 2vw, 2.8rem);
-
-  --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
-  --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem;
-  --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem;
-
-  --radius-sm: 0.375rem; --radius-md: 0.5rem;
-  --radius-lg: 0.75rem; --radius-xl: 1rem;
-  --radius-full: 9999px;
-
-  --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
-
-  /* F45 Brand Colors */
-  --f45-red: #D6001C;
-  --f45-red-hover: #BB051D;
-  --f45-navy: #211551;
-  --f45-navy-light: #4531A6;
-  --f45-purple: #150c39;
+:root{
+  --font-body:'Inter','Helvetica Neue',Arial,sans-serif;
+  --text-xs:clamp(.7rem,.65rem + .25vw,.8rem);
+  --text-sm:clamp(.8rem,.75rem + .25vw,.9rem);
+  --text-base:clamp(.9rem,.85rem + .25vw,1rem);
+  --text-lg:clamp(1.1rem,1rem + .5vw,1.35rem);
+  --text-xl:clamp(1.4rem,1.1rem + 1vw,2rem);
+  --text-2xl:clamp(1.8rem,1.2rem + 2vw,2.8rem);
+  --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;
+  --space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;
+  --radius-sm:.375rem;--radius-md:.5rem;--radius-lg:.75rem;--radius-xl:1rem;--radius-full:9999px;
+  --transition:180ms cubic-bezier(.16,1,.3,1);
+  --f45-red:#D6001C;--f45-red-hover:#BB051D;
+  --f45-navy:#211551;--f45-navy-light:#4531A6;
 }
 
-/* DARK (default) — F45 dark navy theme */
-[data-theme="dark"] {
-  --color-bg: #0d0a1a;
-  --color-surface: #161230;
-  --color-surface-2: #1c1640;
-  --color-surface-elevated: #241d4a;
-  --color-border: #2a2255;
-  --color-border-hover: #3d3370;
-  --color-text: #eceaf5;
-  --color-text-muted: #9490b0;
-  --color-text-faint: #605c80;
-
-  --color-accent: var(--f45-red);
-  --color-accent-hover: var(--f45-red-hover);
-
-  --color-cardio: #ff8c42;
-  --color-resistance: #7c6bff;
-  --color-hybrid: #2dd4a8;
-
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
-  --shadow-lg: 0 12px 40px rgba(0,0,0,0.6);
+[data-theme="dark"]{
+  --color-bg:#0d0a1a;--color-surface:#161230;--color-surface-2:#1c1640;
+  --color-surface-elevated:#241d4a;--color-border:#2a2255;--color-border-hover:#3d3370;
+  --color-text:#eceaf5;--color-text-muted:#9490b0;--color-text-faint:#605c80;
+  --color-accent:var(--f45-red);--color-accent-hover:var(--f45-red-hover);
+  --color-cardio:#ff8c42;--color-resistance:#7c6bff;--color-hybrid:#2dd4a8;
+  --shadow-md:0 4px 16px rgba(0,0,0,.5);--shadow-lg:0 12px 40px rgba(0,0,0,.6);
 }
 
-/* LIGHT */
-[data-theme="light"] {
-  --color-bg: #f5f4f8;
-  --color-surface: #ffffff;
-  --color-surface-2: #f9f8fc;
-  --color-surface-elevated: #ffffff;
-  --color-border: #e2dff0;
-  --color-border-hover: #d0cbea;
-  --color-text: #1a1535;
-  --color-text-muted: #6b6590;
-  --color-text-faint: #a5a0be;
-
-  --color-accent: #c2001a;
-  --color-accent-hover: #a00016;
-
-  --color-cardio: #d96a20;
-  --color-resistance: #5a4dc7;
-  --color-hybrid: #0f9d7a;
-
-  --shadow-sm: 0 1px 3px rgba(33,21,81,0.06);
-  --shadow-md: 0 4px 16px rgba(33,21,81,0.08);
-  --shadow-lg: 0 12px 40px rgba(33,21,81,0.12);
+[data-theme="light"]{
+  --color-bg:#f5f4f8;--color-surface:#fff;--color-surface-2:#f9f8fc;
+  --color-surface-elevated:#fff;--color-border:#e2dff0;--color-border-hover:#d0cbea;
+  --color-text:#1a1535;--color-text-muted:#6b6590;--color-text-faint:#a5a0be;
+  --color-accent:#c2001a;--color-accent-hover:#a00016;
+  --color-cardio:#d96a20;--color-resistance:#5a4dc7;--color-hybrid:#0f9d7a;
+  --shadow-md:0 4px 16px rgba(33,21,81,.08);--shadow-lg:0 12px 40px rgba(33,21,81,.12);
 }
 
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  scroll-behavior: smooth;
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg);line-height:1.6}
+.container{max-width:1200px;margin:0 auto;padding:0 var(--space-6)}
+
+/* HEADER */
+.header{padding:var(--space-8) 0 var(--space-5);border-bottom:1px solid var(--color-border);margin-bottom:var(--space-5)}
+.header-top{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);margin-bottom:var(--space-4)}
+.logo-area{display:flex;align-items:center;gap:var(--space-4)}
+.logo-mark{width:52px;height:52px;background:var(--f45-red);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:#fff;flex-shrink:0}
+.logo-text h1{font-size:var(--text-xl);font-weight:800;line-height:1.15;letter-spacing:-.03em}
+.logo-text .subtitle{font-size:var(--text-xs);color:var(--color-text-muted);font-weight:500;margin-top:2px}
+.theme-toggle{cursor:pointer;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);transition:all var(--transition);flex-shrink:0}
+.theme-toggle:hover{border-color:var(--color-border-hover);color:var(--color-text)}
+
+/* SERIES BANNER */
+.series-banner{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--space-5) var(--space-6);margin-bottom:var(--space-5);position:relative;overflow:hidden}
+.series-banner::before{content:'';position:absolute;top:0;left:0;bottom:0;width:4px;background:var(--f45-red)}
+.series-name{font-size:var(--text-lg);font-weight:800;margin-bottom:var(--space-1);letter-spacing:-.02em}
+.series-desc{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.6;max-width:80ch}
+.series-meta{display:flex;gap:var(--space-6);margin-top:var(--space-3);flex-wrap:wrap}
+.series-meta-item{font-size:var(--text-xs);color:var(--color-text-faint);font-weight:500}
+.series-meta-item strong{color:var(--color-text);font-weight:700}
+
+/* PHASE TABS */
+.phase-tabs{display:flex;gap:var(--space-2);margin-bottom:var(--space-5);flex-wrap:wrap}
+.phase-tab{cursor:pointer;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-3) var(--space-5);font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);transition:all var(--transition);display:flex;flex-direction:column;gap:2px;min-width:140px}
+.phase-tab:hover{border-color:var(--color-border-hover);color:var(--color-text)}
+.phase-tab.active{background:var(--f45-navy);border-color:var(--f45-navy);color:#fff}
+.phase-tab .tab-label{font-size:var(--text-xs);opacity:.7;font-weight:500}
+.phase-tab .tab-name{font-weight:700}
+.phase-tab.active .tab-label{opacity:.8}
+.phase-tab.future{opacity:.5;border-style:dashed}
+
+/* PHASE INFO */
+.phase-info{display:flex;align-items:center;gap:var(--space-6);margin-bottom:var(--space-5);flex-wrap:wrap}
+.date-chip{display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-sm);color:var(--color-text-muted)}
+.date-chip svg{width:16px;height:16px;flex-shrink:0}
+.date-chip strong{color:var(--color-text);font-weight:600}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-3);margin-bottom:var(--space-5)}
+.stat-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-4);text-align:center}
+.stat-card .stat-value{font-size:var(--text-xl);font-weight:800;line-height:1.2}
+.stat-card .stat-value.cardio{color:var(--color-cardio)}
+.stat-card .stat-value.resistance{color:var(--color-resistance)}
+.stat-card .stat-value.hybrid{color:var(--color-hybrid)}
+.stat-card .stat-label{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:2px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+
+/* FILTERS */
+.filters{display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-5);flex-wrap:wrap}
+.filter-btn{cursor:pointer;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:var(--space-2) var(--space-5);font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);transition:all var(--transition);white-space:nowrap}
+.filter-btn:hover{border-color:var(--color-border-hover);color:var(--color-text)}
+.filter-btn.active{background:var(--color-text);color:var(--color-bg);border-color:var(--color-text)}
+.filter-btn.active[data-filter="cardio"]{background:var(--color-cardio);border-color:var(--color-cardio);color:#fff}
+.filter-btn.active[data-filter="resistance"]{background:var(--color-resistance);border-color:var(--color-resistance);color:#fff}
+.filter-btn.active[data-filter="hybrid"]{background:var(--color-hybrid);border-color:var(--color-hybrid);color:#fff}
+
+/* WEEK NAV */
+.week-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-5)}
+.week-title{font-size:var(--text-lg);font-weight:700}
+.week-nav-btns{display:flex;gap:var(--space-2)}
+.nav-btn{cursor:pointer;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);transition:all var(--transition)}
+.nav-btn:hover{border-color:var(--color-border-hover);color:var(--color-text)}
+.nav-btn:disabled{opacity:.3;cursor:not-allowed}
+
+/* CALENDAR */
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:var(--space-3);margin-bottom:var(--space-8)}
+.day-header{text-align:center;font-size:var(--text-xs);font-weight:700;color:var(--color-text-faint);text-transform:uppercase;letter-spacing:.08em;padding-bottom:var(--space-2)}
+.day-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-4);cursor:pointer;transition:all var(--transition);min-height:140px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.day-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius-lg) var(--radius-lg) 0 0}
+.day-card[data-type="cardio"]::before{background:var(--color-cardio)}
+.day-card[data-type="resistance"]::before{background:var(--color-resistance)}
+.day-card[data-type="hybrid"]::before{background:var(--color-hybrid)}
+.day-card:hover{border-color:var(--color-border-hover);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.day-card.today{border-color:var(--f45-red);box-shadow:0 0 0 1px var(--f45-red)}
+.day-card.hidden{opacity:.12;pointer-events:none;transform:scale(.97)}
+.day-card .day-date{font-size:var(--text-xs);color:var(--color-text-faint);font-weight:500;margin-bottom:var(--space-1)}
+.day-card .day-name{font-size:var(--text-base);font-weight:700;margin-bottom:var(--space-1);line-height:1.3}
+.day-card .day-timing{font-size:.7rem;color:var(--color-text-muted);margin-bottom:var(--space-2);line-height:1.4}
+.day-card .day-type{display:inline-flex;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:auto;padding:3px 10px;border-radius:var(--radius-full)}
+.day-card[data-type="cardio"] .day-type{color:var(--color-cardio);background:rgba(255,140,66,.12)}
+.day-card[data-type="resistance"] .day-type{color:var(--color-resistance);background:rgba(124,107,255,.12)}
+.day-card[data-type="hybrid"] .day-type{color:var(--color-hybrid);background:rgba(45,212,168,.12)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(13,10,26,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:100;display:flex;align-items:center;justify-content:center;padding:var(--space-6);opacity:0;pointer-events:none;transition:opacity 200ms ease}
+.modal-overlay.active{opacity:1;pointer-events:auto}
+.modal{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);max-width:560px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:var(--shadow-lg);transform:translateY(16px) scale(.97);transition:transform 200ms ease}
+.modal-overlay.active .modal{transform:translateY(0) scale(1)}
+.modal-header{position:relative;padding:var(--space-6) var(--space-6) var(--space-4)}
+.modal-header::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:var(--radius-xl) var(--radius-xl) 0 0}
+.modal[data-type="cardio"] .modal-header::before{background:var(--color-cardio)}
+.modal[data-type="resistance"] .modal-header::before{background:var(--color-resistance)}
+.modal[data-type="hybrid"] .modal-header::before{background:var(--color-hybrid)}
+.modal-close{position:absolute;top:var(--space-4);right:var(--space-4);cursor:pointer;background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-full);width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);transition:all var(--transition)}
+.modal-close:hover{color:var(--color-text);border-color:var(--color-border-hover)}
+.modal-date{font-size:var(--text-xs);color:var(--color-text-muted);font-weight:500;margin-bottom:var(--space-1)}
+.modal-title{font-size:var(--text-xl);font-weight:800;line-height:1.15;letter-spacing:-.02em}
+.modal-type-badge{display:inline-flex;font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:3px var(--space-3);border-radius:var(--radius-full);margin-top:var(--space-3)}
+.modal[data-type="cardio"] .modal-type-badge{color:var(--color-cardio);background:rgba(255,140,66,.12)}
+.modal[data-type="resistance"] .modal-type-badge{color:var(--color-resistance);background:rgba(124,107,255,.12)}
+.modal[data-type="hybrid"] .modal-type-badge{color:var(--color-hybrid);background:rgba(45,212,168,.12)}
+.modal-body{padding:0 var(--space-6) var(--space-6)}
+.modal-desc{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.7;margin-bottom:var(--space-5)}
+.timing-section{background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-5)}
+.timing-title{font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-faint);margin-bottom:var(--space-3)}
+.timing-row{display:flex;align-items:center;justify-content:space-between;padding:var(--space-2) 0;border-bottom:1px solid var(--color-border);font-size:var(--text-sm)}
+.timing-row:last-child{border-bottom:none}
+.timing-row .label{color:var(--color-text-muted);font-weight:500}
+.timing-row .value{color:var(--color-text);font-weight:700;font-variant-numeric:tabular-nums}
+.modal-details{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3)}
+.detail-item{background:var(--color-surface-2);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4)}
+.detail-item .detail-label{font-size:.65rem;color:var(--color-text-faint);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:2px}
+.detail-item .detail-value{font-size:var(--text-sm);font-weight:700;color:var(--color-text)}
+
+.footer{border-top:1px solid var(--color-border);padding:var(--space-5) 0;text-align:center;font-size:var(--text-xs);color:var(--color-text-faint)}
+
+@media(max-width:768px){
+  .calendar-grid{grid-template-columns:1fr;gap:var(--space-2)}
+  .day-header{display:none}
+  .day-card{min-height:auto;flex-direction:row;align-items:center;gap:var(--space-3);padding:var(--space-3) var(--space-4)}
+  .day-card::before{width:3px;height:100%;border-radius:var(--radius-lg) 0 0 var(--radius-lg);right:auto;bottom:0}
+  .day-card .day-date{min-width:48px;margin-bottom:0;font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted)}
+  .day-card .day-name{margin-bottom:0;flex:1}
+  .day-card .day-timing{display:none}
+  .day-card .day-type{margin-top:0}
+  .stats-row{gap:var(--space-2)}
+  .stat-card{padding:var(--space-3)}
+  .phase-tab{min-width:auto;padding:var(--space-2) var(--space-4)}
 }
 
-body {
-  min-height: 100dvh;
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  color: var(--color-text);
-  background-color: var(--color-bg);
-  line-height: 1.6;
+@media(max-width:480px){
+  .container{padding:0 var(--space-4)}
+  .filter-btn{padding:var(--space-2) var(--space-3);font-size:var(--text-xs)}
 }
 
-/* ===== LAYOUT ===== */
-.container { max-width: 1200px; margin: 0 auto; padding: 0 var(--space-6); }
-
-/* ===== HEADER ===== */
-.header {
-  padding: var(--space-8) 0 var(--space-6);
-  border-bottom: 1px solid var(--color-border);
-  margin-bottom: var(--space-6);
-}
-
-.header-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-  margin-bottom: var(--space-5);
-}
-
-.logo-area { display: flex; align-items: center; gap: var(--space-4); }
-
-.logo-mark {
-  width: 52px; height: 52px;
-  background: var(--f45-red);
-  border-radius: var(--radius-lg);
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 1.1rem; color: #fff;
-  flex-shrink: 0; letter-spacing: -0.02em;
-}
-
-.logo-text h1 {
-  font-size: var(--text-xl);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-}
-
-.logo-text .phase-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-top: 2px;
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-  font-weight: 500;
-}
-
-.phase-badge .dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--f45-red);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-
-.theme-toggle {
-  cursor: pointer;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-full);
-  width: 40px; height: 40px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--color-text-muted);
-  transition: all var(--transition);
-  flex-shrink: 0;
-}
-
-.theme-toggle:hover { border-color: var(--color-border-hover); color: var(--color-text); }
-
-.phase-dates {
-  display: flex; align-items: center;
-  gap: var(--space-6); flex-wrap: wrap;
-}
-
-.date-chip {
-  display: flex; align-items: center;
-  gap: var(--space-2);
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-}
-
-.date-chip svg { width: 16px; height: 16px; flex-shrink: 0; }
-.date-chip strong { color: var(--color-text); font-weight: 600; }
-
-/* ===== STATS ROW ===== */
-.stats-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-3);
-  margin-bottom: var(--space-6);
-}
-
-.stat-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  text-align: center;
-}
-
-.stat-card .stat-value {
-  font-size: var(--text-xl); font-weight: 800; line-height: 1.2;
-}
-
-.stat-card .stat-value.cardio { color: var(--color-cardio); }
-.stat-card .stat-value.resistance { color: var(--color-resistance); }
-.stat-card .stat-value.hybrid { color: var(--color-hybrid); }
-
-.stat-card .stat-label {
-  font-size: var(--text-xs);
-  color: var(--color-text-muted);
-  margin-top: 2px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-}
-
-/* ===== FILTERS ===== */
-.filters {
-  display: flex; align-items: center;
-  gap: var(--space-2); margin-bottom: var(--space-5);
-  flex-wrap: wrap;
-}
-
-.filter-btn {
-  cursor: pointer;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-full);
-  padding: var(--space-2) var(--space-5);
-  font-size: var(--text-sm); font-weight: 600;
-  color: var(--color-text-muted);
-  transition: all var(--transition);
-  white-space: nowrap;
-}
-
-.filter-btn:hover { border-color: var(--color-border-hover); color: var(--color-text); }
-
-.filter-btn.active { background: var(--color-text); color: var(--color-bg); border-color: var(--color-text); }
-.filter-btn.active[data-filter="cardio"] { background: var(--color-cardio); border-color: var(--color-cardio); color: #fff; }
-.filter-btn.active[data-filter="resistance"] { background: var(--color-resistance); border-color: var(--color-resistance); color: #fff; }
-.filter-btn.active[data-filter="hybrid"] { background: var(--color-hybrid); border-color: var(--color-hybrid); color: #fff; }
-
-/* ===== WEEK NAVIGATION ===== */
-.week-nav {
-  display: flex; align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--space-5);
-}
-
-.week-title { font-size: var(--text-lg); font-weight: 700; }
-
-.week-nav-btns { display: flex; gap: var(--space-2); }
-
-.nav-btn {
-  cursor: pointer;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  width: 36px; height: 36px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--color-text-muted);
-  transition: all var(--transition);
-}
-
-.nav-btn:hover { border-color: var(--color-border-hover); color: var(--color-text); }
-.nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-
-/* ===== CALENDAR GRID ===== */
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: var(--space-3);
-  margin-bottom: var(--space-8);
-}
-
-.day-header {
-  text-align: center;
-  font-size: var(--text-xs); font-weight: 700;
-  color: var(--color-text-faint);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding-bottom: var(--space-2);
-}
-
-.day-card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  cursor: pointer;
-  transition: all var(--transition);
-  min-height: 140px;
-  display: flex; flex-direction: column;
-  position: relative; overflow: hidden;
-}
-
-.day-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0;
-  height: 3px;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-}
-
-.day-card[data-type="cardio"]::before { background: var(--color-cardio); }
-.day-card[data-type="resistance"]::before { background: var(--color-resistance); }
-.day-card[data-type="hybrid"]::before { background: var(--color-hybrid); }
-
-.day-card:hover {
-  border-color: var(--color-border-hover);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-
-.day-card.today {
-  border-color: var(--f45-red);
-  box-shadow: 0 0 0 1px var(--f45-red);
-}
-
-.day-card.hidden { opacity: 0.12; pointer-events: none; transform: scale(0.97); }
-
-.day-card .day-date {
-  font-size: var(--text-xs);
-  color: var(--color-text-faint);
-  font-weight: 500;
-  margin-bottom: var(--space-1);
-}
-
-.day-card .day-name {
-  font-size: var(--text-base);
-  font-weight: 700;
-  margin-bottom: var(--space-1);
-  line-height: 1.3;
-}
-
-.day-card .day-timing {
-  font-size: 0.7rem;
-  color: var(--color-text-muted);
-  margin-bottom: var(--space-2);
-  line-height: 1.4;
-}
-
-.day-card .day-type {
-  display: inline-flex;
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-top: auto;
-  padding: 3px 10px;
-  border-radius: var(--radius-full);
-}
-
-.day-card[data-type="cardio"] .day-type { color: var(--color-cardio); background: rgba(255,140,66,0.12); }
-.day-card[data-type="resistance"] .day-type { color: var(--color-resistance); background: rgba(124,107,255,0.12); }
-.day-card[data-type="hybrid"] .day-type { color: var(--color-hybrid); background: rgba(45,212,168,0.12); }
-
-/* ===== MODAL ===== */
-.modal-overlay {
-  position: fixed; inset: 0;
-  background: rgba(13,10,26,0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  z-index: 100;
-  display: flex; align-items: center; justify-content: center;
-  padding: var(--space-6);
-  opacity: 0; pointer-events: none;
-  transition: opacity 200ms ease;
-}
-
-.modal-overlay.active { opacity: 1; pointer-events: auto; }
-
-.modal {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  max-width: 560px; width: 100%;
-  max-height: 85vh; overflow-y: auto;
-  box-shadow: var(--shadow-lg);
-  transform: translateY(16px) scale(0.97);
-  transition: transform 200ms ease;
-}
-
-.modal-overlay.active .modal { transform: translateY(0) scale(1); }
-
-.modal-header {
-  position: relative;
-  padding: var(--space-6) var(--space-6) var(--space-4);
-}
-
-.modal-header::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0;
-  height: 4px;
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-}
-
-.modal[data-type="cardio"] .modal-header::before { background: var(--color-cardio); }
-.modal[data-type="resistance"] .modal-header::before { background: var(--color-resistance); }
-.modal[data-type="hybrid"] .modal-header::before { background: var(--color-hybrid); }
-
-.modal-close {
-  position: absolute; top: var(--space-4); right: var(--space-4);
-  cursor: pointer;
-  background: var(--color-surface-2);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-full);
-  width: 32px; height: 32px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--color-text-muted);
-  transition: all var(--transition);
-}
-
-.modal-close:hover { color: var(--color-text); border-color: var(--color-border-hover); }
-
-.modal-date { font-size: var(--text-xs); color: var(--color-text-muted); font-weight: 500; margin-bottom: var(--space-1); }
-
-.modal-title { font-size: var(--text-xl); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; }
-
-.modal-type-badge {
-  display: inline-flex;
-  font-size: var(--text-xs); font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding: 3px var(--space-3);
-  border-radius: var(--radius-full);
-  margin-top: var(--space-3);
-}
-
-.modal[data-type="cardio"] .modal-type-badge { color: var(--color-cardio); background: rgba(255,140,66,0.12); }
-.modal[data-type="resistance"] .modal-type-badge { color: var(--color-resistance); background: rgba(124,107,255,0.12); }
-.modal[data-type="hybrid"] .modal-type-badge { color: var(--color-hybrid); background: rgba(45,212,168,0.12); }
-
-.modal-body { padding: 0 var(--space-6) var(--space-6); }
-
-.modal-desc { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-5); }
-
-/* Timing section */
-.timing-section {
-  background: var(--color-surface-2);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  margin-bottom: var(--space-5);
-}
-
-.timing-title {
-  font-size: var(--text-xs); font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-text-faint);
-  margin-bottom: var(--space-3);
-}
-
-.timing-row {
-  display: flex; align-items: center;
-  justify-content: space-between;
-  padding: var(--space-2) 0;
-  border-bottom: 1px solid var(--color-border);
-  font-size: var(--text-sm);
-}
-
-.timing-row:last-child { border-bottom: none; }
-
-.timing-row .label { color: var(--color-text-muted); font-weight: 500; }
-.timing-row .value { color: var(--color-text); font-weight: 700; font-variant-numeric: tabular-nums; }
-
-.modal-details {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
-}
-
-.detail-item {
-  background: var(--color-surface-2);
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
-}
-
-.detail-item .detail-label {
-  font-size: 0.65rem;
-  color: var(--color-text-faint);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 700;
-  margin-bottom: 2px;
-}
-
-.detail-item .detail-value {
-  font-size: var(--text-sm);
-  font-weight: 700;
-  color: var(--color-text);
-}
-
-/* ===== FOOTER ===== */
-.footer {
-  border-top: 1px solid var(--color-border);
-  padding: var(--space-5) 0;
-  text-align: center;
-  font-size: var(--text-xs);
-  color: var(--color-text-faint);
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-  .calendar-grid { grid-template-columns: 1fr; gap: var(--space-2); }
-  .day-header { display: none; }
-
-  .day-card {
-    min-height: auto;
-    flex-direction: row; align-items: center;
-    gap: var(--space-3); padding: var(--space-3) var(--space-4);
-  }
-
-  .day-card::before {
-    width: 3px; height: 100%;
-    border-radius: var(--radius-lg) 0 0 var(--radius-lg);
-    right: auto; bottom: 0;
-  }
-
-  .day-card .day-date { min-width: 48px; margin-bottom: 0; font-size: var(--text-xs); font-weight: 600; color: var(--color-text-muted); }
-  .day-card .day-name { margin-bottom: 0; flex: 1; }
-  .day-card .day-timing { display: none; }
-  .day-card .day-type { margin-top: 0; }
-
-  .stats-row { gap: var(--space-2); }
-  .stat-card { padding: var(--space-3); }
-  .modal-details { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 480px) {
-  .container { padding: 0 var(--space-4); }
-  .filter-btn { padding: var(--space-2) var(--space-3); font-size: var(--text-xs); }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    --color-bg: #0d0a1a; --color-surface: #161230; --color-surface-2: #1c1640;
-    --color-surface-elevated: #241d4a; --color-border: #2a2255;
-    --color-border-hover: #3d3370; --color-text: #eceaf5;
-    --color-text-muted: #9490b0; --color-text-faint: #605c80;
-    --color-accent: #D6001C; --color-accent-hover: #BB051D;
-    --color-cardio: #ff8c42; --color-resistance: #7c6bff;
-    --color-hybrid: #2dd4a8;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
-    --shadow-lg: 0 12px 40px rgba(0,0,0,0.6);
-  }
-}
+@media(prefers-color-scheme:dark){:root:not([data-theme]){
+  --color-bg:#0d0a1a;--color-surface:#161230;--color-surface-2:#1c1640;
+  --color-surface-elevated:#241d4a;--color-border:#2a2255;--color-border-hover:#3d3370;
+  --color-text:#eceaf5;--color-text-muted:#9490b0;--color-text-faint:#605c80;
+  --color-accent:#D6001C;--color-accent-hover:#BB051D;
+  --color-cardio:#ff8c42;--color-resistance:#7c6bff;--color-hybrid:#2dd4a8;
+  --shadow-md:0 4px 16px rgba(0,0,0,.5);--shadow-lg:0 12px 40px rgba(0,0,0,.6)
+}}
 </style>
 </head>
 <body>
@@ -564,35 +200,21 @@ body {
       <div class="logo-area">
         <div class="logo-mark">F45</div>
         <div class="logo-text">
-          <h1>Phase 4</h1>
-          <div class="phase-badge"><span class="dot"></span> Календарь тренировок</div>
+          <h1>Календарь 2026</h1>
+          <div class="subtitle">Тренировки по фазам и сериям</div>
         </div>
       </div>
       <button class="theme-toggle" data-theme-toggle aria-label="Переключить тему">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
       </button>
     </div>
-    <div class="phase-dates">
-      <div class="date-chip">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Старт: <strong>30 марта 2026</strong>
-      </div>
-      <div class="date-chip">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        Финиш: <strong>26 апреля 2026</strong>
-      </div>
-      <div class="date-chip">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <strong>4 недели</strong> · 28 тренировок
-      </div>
-    </div>
   </header>
 
-  <div class="stats-row">
-    <div class="stat-card"><div class="stat-value cardio">2</div><div class="stat-label">Кардио / нед.</div></div>
-    <div class="stat-card"><div class="stat-value resistance">3</div><div class="stat-label">Силовые / нед.</div></div>
-    <div class="stat-card"><div class="stat-value hybrid">2</div><div class="stat-label">Гибрид / нед.</div></div>
-  </div>
+  <div class="series-banner" id="seriesBanner"></div>
+  <div class="phase-tabs" id="phaseTabs"></div>
+  <div class="phase-info" id="phaseInfo"></div>
+
+  <div class="stats-row" id="statsRow"></div>
 
   <div class="filters">
     <button class="filter-btn active" data-filter="all">Все</button>
@@ -604,8 +226,8 @@ body {
   <div class="week-nav">
     <div class="week-title" id="weekTitle">Неделя 1</div>
     <div class="week-nav-btns">
-      <button class="nav-btn" id="prevWeek" aria-label="Пред. неделя"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
-      <button class="nav-btn" id="nextWeek" aria-label="След. неделя"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+      <button class="nav-btn" id="prevWeek"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <button class="nav-btn" id="nextWeek"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
     </div>
   </div>
 
@@ -615,9 +237,7 @@ body {
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal" id="modal">
     <div class="modal-header">
-      <button class="modal-close" id="modalClose" aria-label="Закрыть">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
+      <button class="modal-close" id="modalClose"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
       <div class="modal-date" id="modalDate"></div>
       <div class="modal-title" id="modalTitle"></div>
       <div class="modal-type-badge" id="modalBadge"></div>
@@ -630,240 +250,241 @@ body {
   </div>
 </div>
 
-<footer class="footer"><div class="container">F45 Phase 4 · 2026</div></footer>
+<footer class="footer"><div class="container">F45 Training · 2026</div></footer>
 
 <script>
+// ===== WORKOUT DATABASE =====
 const WORKOUTS = {
-  'Mont Blanc': {
-    type: 'hybrid', typeRu: 'Гибрид',
-    description: 'Гибридная тренировка, эволюция классического Romans. 9 станций в 3 подах с партнёром — акцент на функциональную силу и кардио-выносливость. Каждая станция включает силовой и кардио-элемент.',
-    shortTiming: '40с / 20с · 2 круга',
-    timing: [
-      { label: 'Станции', value: '9 станций · 3 пода' },
-      { label: 'Формат', value: 'Партнёрский circuit' },
-      { label: 'Работа / Отдых', value: '40 сек / 20 сек' },
-      { label: 'Сеты на станции', value: '2 сета' },
-      { label: 'Круги', value: '2 круга (1 мин отдых между)' },
-      { label: 'Общее время', value: '~45 мин' }
-    ],
-    focus: 'Всё тело · Функциональная сила',
-    intensity: 'Высокая',
-    calories: '500–700'
-  },
-  'Phoenix': {
-    type: 'resistance', typeRu: 'Силовая',
-    description: 'Тренировка на гипертрофию — наращивание мышечной массы. Классическая схема 3 сета по 10 повторений на станцию. Выбирайте вес для 8–12 повторений и увеличивайте от сета к сету.',
-    shortTiming: '3×10 · гипертрофия',
-    timing: [
-      { label: 'Станции', value: '10 станций · 1 под' },
-      { label: 'Формат', value: 'Hypertrophy 3×10' },
-      { label: 'Сеты на станции', value: '3 сета' },
-      { label: 'Повторения', value: '8–12 (основные) / 12–15 (вспом.)' },
-      { label: 'Работа', value: '~35 сек на сет' },
-      { label: 'Общее время', value: '~45 мин' }
-    ],
-    focus: 'Всё тело · Гипертрофия',
-    intensity: 'Средне-высокая',
-    calories: '350–500'
-  },
-  'Docklands': {
-    type: 'cardio', typeRu: 'Кардио',
-    description: 'Интервальная кардио-тренировка с убывающими интервалами. Начинается с длинных 60-секундных рабочих периодов и сокращается до взрывных 20-секундных серий. Ломает адаптацию организма.',
-    shortTiming: '60/30 → 30/10 → 20/5',
-    timing: [
-      { label: 'Станции', value: '12 станций · 3 пода (4 ст.)' },
-      { label: 'Круг 1', value: '60 сек работа / 30 сек отдых' },
-      { label: 'Круг 2', value: '30 сек работа / 10 сек отдых' },
-      { label: 'Круг 3', value: '20 сек работа / 5 сек отдых' },
-      { label: 'Стиль', value: 'Descending intervals' },
-      { label: 'Общее время', value: '~45 мин' }
-    ],
-    focus: 'Кардио-выносливость · Жиросжигание',
-    intensity: 'Очень высокая',
-    calories: '600–800'
-  },
-  'Duo': {
-    type: 'resistance', typeRu: 'Силовая',
-    description: 'Сплит-тренировка: на каждой станции два движения — верх и низ. Выбирайте сами. 4 сета с прогрессией веса, доходя до отказа на 3–4 сете.',
-    shortTiming: '4 сета · upper/lower split',
-    timing: [
-      { label: 'Станции', value: '10 станций · 2 движения каждая' },
-      { label: 'Формат', value: 'Split resistance: upper/lower' },
-      { label: 'Сеты на станции', value: '4 сета' },
-      { label: 'Работа', value: '~35 сек на сет' },
-      { label: 'Прогрессия', value: 'Вес ↑ каждый сет → отказ на 3–4' },
-      { label: 'Общее время', value: '~45 мин' }
-    ],
-    focus: 'Верх + Низ · Мышечная перегрузка',
-    intensity: 'Средне-высокая',
-    calories: '350–500'
-  },
-  'Drift': {
-    type: 'hybrid', typeRu: 'Гибрид',
-    description: 'AMRAP-челлендж: «дрейфуйте» между двумя упражнениями, выполняя максимум раундов. Убывающая структура повторений от круга к кругу.',
-    shortTiming: 'AMRAP · 8→6→4 reps',
-    timing: [
-      { label: 'Станции', value: '12 станций · пары упражнений' },
-      { label: 'Формат', value: 'AMRAP (макс. раундов за время)' },
-      { label: 'Круг 1', value: '8 повторений · 60 сек AMRAP' },
-      { label: 'Круг 2', value: '6 повторений · 45 сек AMRAP' },
-      { label: 'Круг 3', value: '4 повторения · 30 сек AMRAP' },
-      { label: 'Общее время', value: '~45 мин' }
-    ],
-    focus: 'Кардио + Сила · Скорость',
-    intensity: 'Высокая',
-    calories: '500–650'
-  },
-  'NoHo': {
-    type: 'cardio', typeRu: 'Кардио',
-    description: 'Высокоинтенсивная кардио-сессия в формате racetrack. Полный круг по комнате через все станции без остановки. Функциональная сила, кардио и выносливость.',
-    shortTiming: 'Racetrack · 14 станций',
-    timing: [
-      { label: 'Станции', value: '14 станций · racetrack' },
-      { label: 'Формат', value: '1 круг по комнате, без гидратации' },
-      { label: 'Стиль', value: 'Пирамидальный тайминг' },
-      { label: 'Интервалы', value: '20/5 → 30/5 → 40/5 → 50/5 → 60/20' },
-      { label: 'Особенность', value: 'Полное тело, нон-стоп кардио' },
-      { label: 'Общее время', value: '~45 мин' }
-    ],
-    focus: 'Полное тело · Максимальное сжигание',
-    intensity: 'Очень высокая',
-    calories: '600–850'
-  },
-  'Wingman': {
-    type: 'resistance', typeRu: 'Силовая',
-    description: 'Парная силовая тренировка с суперсетами и перегрузкой. Работа в паре для мотивации — контролированная нагрузка на все мышечные группы.',
-    shortTiming: 'Superset · партнёр',
-    timing: [
-      { label: 'Станции', value: '9 станций · парный формат' },
-      { label: 'Формат', value: 'Superset + Overload' },
-      { label: 'Сеты на станции', value: '3–4 сета' },
-      { label: 'Работа', value: '~35 сек на сет' },
-      { label: 'Особенность', value: 'Партнёр задаёт темп и мотивирует' },
-      { label: 'Общее время', value: '~45 мин' }
-    ],
-    focus: 'Всё тело · Партнёрская перегрузка',
-    intensity: 'Средне-высокая',
-    calories: '350–500'
-  }
+  'Mont Blanc':{type:'hybrid',typeRu:'Гибрид',description:'Гибридная тренировка, эволюция классического Romans. 9 станций в 3 подах с партнёром — функциональная сила и кардио-выносливость.',shortTiming:'40с/20с · 2 круга',timing:[{label:'Станции',value:'9 станций · 3 пода'},{label:'Работа / Отдых',value:'40 сек / 20 сек'},{label:'Сеты на станции',value:'2 сета'},{label:'Круги',value:'2 (1 мин отдых между)'},{label:'Формат',value:'Партнёрский circuit'}],focus:'Всё тело · Функциональная сила',intensity:'Высокая',calories:'500–700'},
+  'Phoenix':{type:'resistance',typeRu:'Силовая',description:'Тренировка на гипертрофию. 3 сета по 10 повторений — вес для 8–12 повторений с прогрессией от сета к сету.',shortTiming:'3×10 · гипертрофия',timing:[{label:'Станции',value:'10 станций · 1 под'},{label:'Формат',value:'Hypertrophy 3×10'},{label:'Сеты',value:'3 сета'},{label:'Повторения',value:'8–12 (основные) / 12–15 (вспом.)'},{label:'Работа',value:'~35 сек на сет'}],focus:'Всё тело · Гипертрофия',intensity:'Средне-высокая',calories:'350–500'},
+  'Docklands':{type:'cardio',typeRu:'Кардио',description:'Интервальная кардио с убывающими интервалами: от 60с до 20с. Ломает адаптацию и строит выносливость.',shortTiming:'60/30 → 30/10 → 20/5',timing:[{label:'Станции',value:'12 станций · 3 пода (4 ст.)'},{label:'Круг 1',value:'60с работа / 30с отдых'},{label:'Круг 2',value:'30с работа / 10с отдых'},{label:'Круг 3',value:'20с работа / 5с отдых'},{label:'Стиль',value:'Descending intervals'}],focus:'Кардио-выносливость · Жиросжигание',intensity:'Очень высокая',calories:'600–800'},
+  'Duo':{type:'resistance',typeRu:'Силовая',description:'Сплит: на каждой станции два движения — верх и низ. 4 сета с прогрессией веса до отказа на 3–4 сете.',shortTiming:'4 сета · upper/lower',timing:[{label:'Станции',value:'10 станций · 2 движения'},{label:'Формат',value:'Split: upper/lower'},{label:'Сеты',value:'4 сета'},{label:'Работа',value:'~35 сек на сет'},{label:'Прогрессия',value:'Вес ↑ каждый сет → отказ'}],focus:'Верх + Низ · Перегрузка',intensity:'Средне-высокая',calories:'350–500'},
+  'Drift':{type:'hybrid',typeRu:'Гибрид',description:'AMRAP-челлендж: дрейф между двумя упражнениями, убывающая структура повторений.',shortTiming:'AMRAP · 8→6→4 reps',timing:[{label:'Станции',value:'12 станций · пары'},{label:'Формат',value:'AMRAP'},{label:'Круг 1',value:'8 повт. · 60с AMRAP'},{label:'Круг 2',value:'6 повт. · 45с AMRAP'},{label:'Круг 3',value:'4 повт. · 30с AMRAP'}],focus:'Кардио + Сила · Скорость',intensity:'Высокая',calories:'500–650'},
+  'NoHo':{type:'cardio',typeRu:'Кардио',description:'Высокоинтенсивная кардио в формате racetrack. Полный круг через 14 станций нон-стоп.',shortTiming:'Racetrack · 14 станций',timing:[{label:'Станции',value:'14 станций · racetrack'},{label:'Формат',value:'1 круг, без гидратации'},{label:'Интервалы',value:'20/5 → 30/5 → 40/5 → 50/5 → 60/20'},{label:'Стиль',value:'Пирамидальный тайминг'},{label:'Особенность',value:'Нон-стоп кардио'}],focus:'Полное тело · Макс. сжигание',intensity:'Очень высокая',calories:'600–850'},
+  'Wingman':{type:'resistance',typeRu:'Силовая',description:'Парная силовая с суперсетами и перегрузкой. Партнёр задаёт темп.',shortTiming:'Superset · партнёр',timing:[{label:'Станции',value:'9 станций · парный формат'},{label:'Формат',value:'Superset + Overload'},{label:'Сеты',value:'3–4 сета'},{label:'Работа',value:'~35 сек на сет'},{label:'Особенность',value:'Партнёрская мотивация'}],focus:'Всё тело · Партнёрская перегрузка',intensity:'Средне-высокая',calories:'350–500'}
 };
 
-const DAYS_RU = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-const DAYS_RU_FULL = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
-const MONTHS_RU = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
-const WEEKLY_SCHEDULE = ['Mont Blanc', 'Phoenix', 'Docklands', 'Duo', 'Drift', 'NoHo', 'Wingman'];
+// ===== SERIES & PHASES =====
+const SERIES = [
+  {
+    id: 1, name: 'Series 1', nameRu: 'Серия 1',
+    focus: 'Undulating Periodization',
+    description: 'Первый 12-недельный цикл 2026 года. Волновая периодизация: постепенное наращивание интенсивности от базовой фазы к пиковой. Фокус на построении фундамента силы и выносливости с выходом на максимальную производительность.',
+    startDate: '2026-01-05', endDate: '2026-03-29',
+    phases: [
+      { id: 1, name: 'Phase 1', nameRu: 'Фаза 1', type: 'Base', typeRu: 'База', start: '2026-01-05', end: '2026-02-01',
+        schedule: ['T10','Romans','Foxtrot','Fusion','Joker','WeHo','Mkatz'] },
+      { id: 2, name: 'Phase 2', nameRu: 'Фаза 2', type: 'Build', typeRu: 'Наращивание', start: '2026-02-02', end: '2026-03-01',
+        schedule: ['Empire','Iceberg','Triple Double','50/50','FWD','Vegas','GOAT'] },
+      { id: 3, name: 'Phase 3', nameRu: 'Фаза 3', type: 'Peak', typeRu: 'Пик', start: '2026-03-02', end: '2026-03-29',
+        schedule: ['Enduro','Maximus','Marathon','Two Fold','Crossfire','High Rise','Double Down'] }
+    ]
+  },
+  {
+    id: 2, name: 'Series 2', nameRu: 'Серия 2',
+    focus: 'Undulating Periodization',
+    description: 'Второй 12-недельный цикл. Новый набор тренировок с тем же принципом волновой периодизации: Base → Build → Peak. Организм адаптируется к новым движениям, сохраняя прогресс из первой серии.',
+    startDate: '2026-03-30', endDate: '2026-06-21',
+    phases: [
+      { id: 4, name: 'Phase 4', nameRu: 'Фаза 4', type: 'Base', typeRu: 'База', start: '2026-03-30', end: '2026-04-26',
+        schedule: ['Mont Blanc','Phoenix','Docklands','Duo','Drift','NoHo','Wingman'] },
+      { id: 5, name: 'Phase 5', nameRu: 'Фаза 5', type: 'Build', typeRu: 'Наращивание', start: '2026-04-27', end: '2026-05-24',
+        schedule: null },
+      { id: 6, name: 'Phase 6', nameRu: 'Фаза 6', type: 'Peak', typeRu: 'Пик', start: '2026-05-25', end: '2026-06-21',
+        schedule: null }
+    ]
+  }
+];
 
-const PHASE_START = new Date(2026, 2, 30);
-const PHASE_END = new Date(2026, 3, 26);
+const DAYS_RU = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+const DAYS_RU_FULL = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'];
+const MONTHS_RU = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+const PHASE_TYPES = {Base:'🏗️',Build:'⚡',Peak:'🔥'};
 
-function generateCalendar() {
-  const days = [];
-  const current = new Date(PHASE_START);
-  while (current <= PHASE_END) {
-    const dow = (current.getDay() + 6) % 7;
-    const w = WEEKLY_SCHEDULE[dow];
-    days.push({ date: new Date(current), workout: w, ...WORKOUTS[w] });
-    current.setDate(current.getDate() + 1);
+// ===== STATE =====
+let currentPhaseId = 4;
+let currentWeek = 0;
+let currentFilter = 'all';
+
+// ===== HELPERS =====
+function parseDate(s) { const p=s.split('-'); return new Date(+p[0],+p[1]-1,+p[2]); }
+function formatDate(d) { return `${d.getDate()} ${MONTHS_RU[d.getMonth()]}`; }
+function formatDateShort(d) { return `${d.getDate()} ${MONTHS_RU[d.getMonth()].slice(0,3)}`; }
+function isToday(d) { const n=new Date(); return d.getDate()===n.getDate()&&d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear(); }
+function getPhase(id) { for(const s of SERIES) for(const p of s.phases) if(p.id===id) return p; return null; }
+function getSeriesForPhase(id) { for(const s of SERIES) for(const p of s.phases) if(p.id===id) return s; return null; }
+
+function generateDays(phase) {
+  if(!phase.schedule) return [];
+  const days=[], start=parseDate(phase.start), end=parseDate(phase.end);
+  const cur=new Date(start);
+  while(cur<=end) {
+    const dow=(cur.getDay()+6)%7;
+    const wName=phase.schedule[dow];
+    const wData=WORKOUTS[wName]||{type:'hybrid',typeRu:'Гибрид',description:'Тренировка '+wName,shortTiming:'45 мин',timing:[],focus:'Всё тело',intensity:'Средняя',calories:'400–600'};
+    days.push({date:new Date(cur),workout:wName,...wData});
+    cur.setDate(cur.getDate()+1);
   }
   return days;
 }
 
-const allDays = generateCalendar();
-let currentWeek = 0, currentFilter = 'all';
+function countTypes(schedule) {
+  if(!schedule) return {cardio:0,resistance:0,hybrid:0};
+  const c={cardio:0,resistance:0,hybrid:0};
+  schedule.forEach(w=>{const d=WORKOUTS[w]; if(d) c[d.type]++;});
+  return c;
+}
 
-function formatDate(d) { return `${d.getDate()} ${MONTHS_RU[d.getMonth()]}`; }
-function isToday(d) { const n = new Date(); return d.getDate()===n.getDate() && d.getMonth()===n.getMonth() && d.getFullYear()===n.getFullYear(); }
+// ===== RENDER =====
+function renderSeriesBanner() {
+  const series = getSeriesForPhase(currentPhaseId);
+  const el = document.getElementById('seriesBanner');
+  const sStart = parseDate(series.startDate), sEnd = parseDate(series.endDate);
+  el.innerHTML = `
+    <div class="series-name">${series.nameRu} · ${series.focus}</div>
+    <div class="series-desc">${series.description}</div>
+    <div class="series-meta">
+      <div class="series-meta-item">12 недель · 3 фазы: <strong>Base → Build → Peak</strong></div>
+      <div class="series-meta-item">${formatDate(sStart)} – ${formatDate(sEnd)}</div>
+    </div>`;
+}
+
+function renderPhaseTabs() {
+  const series = getSeriesForPhase(currentPhaseId);
+  const el = document.getElementById('phaseTabs');
+  el.innerHTML = series.phases.map(p => {
+    const active = p.id===currentPhaseId ? ' active' : '';
+    const future = !p.schedule ? ' future' : '';
+    return `<button class="phase-tab${active}${future}" data-phase="${p.id}">
+      <span class="tab-label">${PHASE_TYPES[p.type]||''} ${p.typeRu}</span>
+      <span class="tab-name">${p.nameRu}</span>
+    </button>`;
+  }).join('');
+
+  el.querySelectorAll('.phase-tab:not(.future)').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentPhaseId = parseInt(btn.dataset.phase);
+      currentWeek = 0; currentFilter = 'all';
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelector('[data-filter="all"]').classList.add('active');
+      renderAll();
+    });
+  });
+}
+
+function renderPhaseInfo() {
+  const phase = getPhase(currentPhaseId);
+  const start = parseDate(phase.start), end = parseDate(phase.end);
+  document.getElementById('phaseInfo').innerHTML = `
+    <div class="date-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Старт: <strong>${formatDate(start)}</strong></div>
+    <div class="date-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Финиш: <strong>${formatDate(end)}</strong></div>
+    <div class="date-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><strong>4 недели</strong> · 28 тренировок</div>`;
+}
+
+function renderStats() {
+  const phase = getPhase(currentPhaseId);
+  const c = countTypes(phase.schedule);
+  document.getElementById('statsRow').innerHTML = `
+    <div class="stat-card"><div class="stat-value cardio">${c.cardio}</div><div class="stat-label">Кардио / нед.</div></div>
+    <div class="stat-card"><div class="stat-value resistance">${c.resistance}</div><div class="stat-label">Силовые / нед.</div></div>
+    <div class="stat-card"><div class="stat-value hybrid">${c.hybrid}</div><div class="stat-label">Гибрид / нед.</div></div>`;
+}
 
 function renderCalendar() {
+  const phase = getPhase(currentPhaseId);
+  const allDays = generateDays(phase);
+  if(!allDays.length) {
+    document.getElementById('calendarGrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:var(--space-10);color:var(--color-text-muted)">Расписание этой фазы ещё не опубликовано</div>';
+    document.getElementById('weekTitle').textContent = '';
+    return;
+  }
   const grid = document.getElementById('calendarGrid');
-  const week = allDays.slice(currentWeek*7, (currentWeek+1)*7);
-  let html = '';
-  DAYS_RU.forEach(d => { html += `<div class="day-header">${d}</div>`; });
-  week.forEach((day, i) => {
-    const hidden = currentFilter!=='all' && day.type!==currentFilter;
-    html += `<div class="day-card${isToday(day.date)?' today':''}${hidden?' hidden':''}" data-type="${day.type}" data-index="${currentWeek*7+i}">
+  const week = allDays.slice(currentWeek*7,(currentWeek+1)*7);
+  let html='';
+  DAYS_RU.forEach(d=>{html+=`<div class="day-header">${d}</div>`;});
+  week.forEach((day,i)=>{
+    const hidden=currentFilter!=='all'&&day.type!==currentFilter;
+    html+=`<div class="day-card${isToday(day.date)?' today':''}${hidden?' hidden':''}" data-type="${day.type}" data-index="${currentWeek*7+i}">
       <div class="day-date">${DAYS_RU_FULL[i]}, ${formatDate(day.date)}</div>
       <div class="day-name">${day.workout}</div>
-      <div class="day-timing">${day.shortTiming}</div>
+      <div class="day-timing">${day.shortTiming||''}</div>
       <div class="day-type">${day.typeRu}</div></div>`;
   });
-  grid.innerHTML = html;
-  document.getElementById('weekTitle').textContent = `Неделя ${currentWeek+1}`;
-  document.getElementById('prevWeek').disabled = currentWeek===0;
-  document.getElementById('nextWeek').disabled = currentWeek===3;
-  grid.querySelectorAll('.day-card:not(.hidden)').forEach(c => {
-    c.addEventListener('click', () => openModal(allDays[parseInt(c.dataset.index)]));
+  grid.innerHTML=html;
+  document.getElementById('weekTitle').textContent=`Неделя ${currentWeek+1}`;
+  document.getElementById('prevWeek').disabled=currentWeek===0;
+  document.getElementById('nextWeek').disabled=currentWeek===3;
+  grid.querySelectorAll('.day-card:not(.hidden)').forEach(c=>{
+    c.addEventListener('click',()=>{
+      const idx=parseInt(c.dataset.index);
+      openModal(allDays[idx]);
+    });
   });
 }
 
+function renderAll() {
+  renderSeriesBanner();
+  renderPhaseTabs();
+  renderPhaseInfo();
+  renderStats();
+  renderCalendar();
+}
+
+// ===== MODAL =====
 function openModal(day) {
-  const o = document.getElementById('modalOverlay'), m = document.getElementById('modal');
-  m.setAttribute('data-type', day.type);
-  const di = (day.date.getDay()+6)%7;
-  document.getElementById('modalDate').textContent = `${DAYS_RU_FULL[di]}, ${formatDate(day.date)}`;
-  document.getElementById('modalTitle').textContent = day.workout;
-  document.getElementById('modalBadge').textContent = day.typeRu;
-  document.getElementById('modalDesc').textContent = day.description;
-
-  // Timing section
-  let timingHtml = '<div class="timing-section"><div class="timing-title">Тайминг и структура</div>';
-  day.timing.forEach(t => {
-    timingHtml += `<div class="timing-row"><span class="label">${t.label}</span><span class="value">${t.value}</span></div>`;
-  });
-  timingHtml += '</div>';
-  document.getElementById('modalTiming').innerHTML = timingHtml;
-
-  const details = [
-    { label: 'Фокус', value: day.focus },
-    { label: 'Интенсивность', value: day.intensity },
-    { label: 'Калории', value: day.calories },
-    { label: 'Время', value: '45 мин' }
-  ];
-  document.getElementById('modalDetails').innerHTML = details.map(d =>
-    `<div class="detail-item"><div class="detail-label">${d.label}</div><div class="detail-value">${d.value}</div></div>`
-  ).join('');
-
+  const o=document.getElementById('modalOverlay'),m=document.getElementById('modal');
+  m.setAttribute('data-type',day.type);
+  const di=(day.date.getDay()+6)%7;
+  document.getElementById('modalDate').textContent=`${DAYS_RU_FULL[di]}, ${formatDate(day.date)}`;
+  document.getElementById('modalTitle').textContent=day.workout;
+  document.getElementById('modalBadge').textContent=day.typeRu;
+  document.getElementById('modalDesc').textContent=day.description;
+  let th='';
+  if(day.timing&&day.timing.length){
+    th='<div class="timing-section"><div class="timing-title">Тайминг и структура</div>';
+    day.timing.forEach(t=>{th+=`<div class="timing-row"><span class="label">${t.label}</span><span class="value">${t.value}</span></div>`;});
+    th+='</div>';
+  }
+  document.getElementById('modalTiming').innerHTML=th;
+  document.getElementById('modalDetails').innerHTML=[
+    {label:'Фокус',value:day.focus},{label:'Интенсивность',value:day.intensity},
+    {label:'Калории',value:day.calories},{label:'Время',value:'45 мин'}
+  ].map(d=>`<div class="detail-item"><div class="detail-label">${d.label}</div><div class="detail-value">${d.value}</div></div>`).join('');
   o.classList.add('active');
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow='hidden';
 }
 
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('active');
-  document.body.style.overflow = '';
-}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('active');document.body.style.overflow='';}
 
-document.getElementById('prevWeek').addEventListener('click', () => { if(currentWeek>0){currentWeek--;renderCalendar();} });
-document.getElementById('nextWeek').addEventListener('click', () => { if(currentWeek<3){currentWeek++;renderCalendar();} });
-document.querySelectorAll('.filter-btn').forEach(b => {
-  b.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    currentFilter = b.dataset.filter;
-    renderCalendar();
+// ===== EVENTS =====
+document.getElementById('prevWeek').addEventListener('click',()=>{if(currentWeek>0){currentWeek--;renderCalendar();}});
+document.getElementById('nextWeek').addEventListener('click',()=>{if(currentWeek<3){currentWeek++;renderCalendar();}});
+document.querySelectorAll('.filter-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');currentFilter=b.dataset.filter;renderCalendar();
   });
 });
+document.getElementById('modalClose').addEventListener('click',closeModal);
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
-document.getElementById('modalClose').addEventListener('click', closeModal);
-document.getElementById('modalOverlay').addEventListener('click', e => { if(e.target===e.currentTarget) closeModal(); });
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+// Theme
+(function(){const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;let d=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');r.setAttribute('data-theme',d);function u(){t.innerHTML=d==='dark'?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';}u();t.addEventListener('click',()=>{d=d==='dark'?'light':'dark';r.setAttribute('data-theme',d);u();});})();
 
-// Theme toggle
+// ===== INIT =====
 (function(){
-  const t=document.querySelector('[data-theme-toggle]'),r=document.documentElement;
-  let d=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
-  r.setAttribute('data-theme',d);
-  function u(){t.innerHTML=d==='dark'?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>':'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';}
-  u();
-  t.addEventListener('click',()=>{d=d==='dark'?'light':'dark';r.setAttribute('data-theme',d);u();});
-})();
-
-// Init - detect current week
-(function(){
+  // Find current or nearest future phase
   const now=new Date();
-  if(now>=PHASE_START&&now<=PHASE_END){
-    currentWeek=Math.min(Math.floor((now-PHASE_START)/(1000*60*60*24)/7),3);
+  for(const s of SERIES) for(const p of s.phases){
+    if(p.schedule && now>=parseDate(p.start) && now<=parseDate(p.end)){
+      currentPhaseId=p.id;
+      const daysDiff=Math.floor((now-parseDate(p.start))/(1000*60*60*24));
+      currentWeek=Math.min(Math.floor(daysDiff/7),3);
+      break;
+    }
   }
-  renderCalendar();
+  renderAll();
 })();
 </script>
 </body>
