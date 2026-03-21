@@ -60,6 +60,12 @@ body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);c
 .theme-toggle{cursor:pointer;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);transition:all var(--transition);flex-shrink:0}
 .theme-toggle:hover{border-color:var(--color-border-hover);color:var(--color-text)}
 
+/* SERIES TABS */
+.series-tabs{display:flex;gap:var(--space-2);margin-bottom:var(--space-4)}
+.series-tab-btn{cursor:pointer;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:var(--space-2) var(--space-5);font-size:var(--text-sm);font-weight:700;color:var(--color-text-muted);transition:all var(--transition)}
+.series-tab-btn:hover{border-color:var(--color-border-hover);color:var(--color-text)}
+.series-tab-btn.active{background:var(--f45-red);border-color:var(--f45-red);color:#fff}
+
 /* SERIES BANNER */
 .series-banner{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--space-5) var(--space-6);margin-bottom:var(--space-5);position:relative;overflow:hidden}
 .series-banner::before{content:'';position:absolute;top:0;left:0;bottom:0;width:4px;background:var(--f45-red)}
@@ -210,6 +216,7 @@ body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);c
     </div>
   </header>
 
+  <div class="series-tabs" id="seriesTabs"></div>
   <div class="series-banner" id="seriesBanner"></div>
   <div class="phase-tabs" id="phaseTabs"></div>
   <div class="phase-info" id="phaseInfo"></div>
@@ -261,7 +268,31 @@ const WORKOUTS = {
   'Duo':{type:'resistance',typeRu:'Силовая',description:'Сплит: на каждой станции два движения — верх и низ. 4 сета с прогрессией веса до отказа на 3–4 сете.',shortTiming:'4 сета · upper/lower',timing:[{label:'Станции',value:'10 станций · 2 движения'},{label:'Формат',value:'Split: upper/lower'},{label:'Сеты',value:'4 сета'},{label:'Работа',value:'~35 сек на сет'},{label:'Прогрессия',value:'Вес ↑ каждый сет → отказ'}],focus:'Верх + Низ · Перегрузка',intensity:'Средне-высокая',calories:'350–500'},
   'Drift':{type:'hybrid',typeRu:'Гибрид',description:'AMRAP-челлендж: дрейф между двумя упражнениями, убывающая структура повторений.',shortTiming:'AMRAP · 8→6→4 reps',timing:[{label:'Станции',value:'12 станций · пары'},{label:'Формат',value:'AMRAP'},{label:'Круг 1',value:'8 повт. · 60с AMRAP'},{label:'Круг 2',value:'6 повт. · 45с AMRAP'},{label:'Круг 3',value:'4 повт. · 30с AMRAP'}],focus:'Кардио + Сила · Скорость',intensity:'Высокая',calories:'500–650'},
   'NoHo':{type:'cardio',typeRu:'Кардио',description:'Высокоинтенсивная кардио в формате racetrack. Полный круг через 14 станций нон-стоп.',shortTiming:'Racetrack · 14 станций',timing:[{label:'Станции',value:'14 станций · racetrack'},{label:'Формат',value:'1 круг, без гидратации'},{label:'Интервалы',value:'20/5 → 30/5 → 40/5 → 50/5 → 60/20'},{label:'Стиль',value:'Пирамидальный тайминг'},{label:'Особенность',value:'Нон-стоп кардио'}],focus:'Полное тело · Макс. сжигание',intensity:'Очень высокая',calories:'600–850'},
-  'Wingman':{type:'resistance',typeRu:'Силовая',description:'Парная силовая с суперсетами и перегрузкой. Партнёр задаёт темп.',shortTiming:'Superset · партнёр',timing:[{label:'Станции',value:'9 станций · парный формат'},{label:'Формат',value:'Superset + Overload'},{label:'Сеты',value:'3–4 сета'},{label:'Работа',value:'~35 сек на сет'},{label:'Особенность',value:'Партнёрская мотивация'}],focus:'Всё тело · Партнёрская перегрузка',intensity:'Средне-высокая',calories:'350–500'}
+  'Wingman':{type:'resistance',typeRu:'Силовая',description:'Парная силовая с суперсетами и перегрузкой. Партнёр задаёт темп.',shortTiming:'Superset · партнёр',timing:[{label:'Станции',value:'9 станций · парный формат'},{label:'Формат',value:'Superset + Overload'},{label:'Сеты',value:'3–4 сета'},{label:'Работа',value:'~35 сек на сет'},{label:'Особенность',value:'Партнёрская мотивация'}],focus:'Всё тело · Партнёрская перегрузка',intensity:'Средне-высокая',calories:'350–500'},
+  // === Series 1 Phase 1 (Base) ===
+  'T10':{type:'hybrid',typeRu:'Гибрид',description:'10 станций hybrid-circuit с акцентом на функциональные движения. Отличный старт для базовой фазы.',shortTiming:'Circuit · 10 станций',timing:[],focus:'Всё тело · Функционал',intensity:'Средняя',calories:'400–600'},
+  'Romans':{type:'resistance',typeRu:'Силовая',description:'Классическая силовая F45: тяжёлые составные движения с максимальным отдыхом. Фокус — поднимать как можно тяжелее каждый сет.',shortTiming:'Compound lifts · макс. вес',timing:[{label:'Формат',value:'Overload resistance'},{label:'Фокус',value:'Тяжёлые составные движения'},{label:'Отдых',value:'Максимальный между сетами'}],focus:'Всё тело · Максимальная сила',intensity:'Высокая',calories:'350–500'},
+  'Foxtrot':{type:'cardio',typeRu:'Кардио',description:'Кардио-тренировка на достижение максимального кардио-порога и удержание его как можно дольше.',shortTiming:'Max cardio threshold',timing:[{label:'Формат',value:'Sustained cardio'},{label:'Фокус',value:'Макс. кардио-порог'}],focus:'Кардио-выносливость',intensity:'Высокая',calories:'500–700'},
+  'Fusion':{type:'hybrid',typeRu:'Гибрид',description:'Гибрид кардио и силовых упражнений в fusion-формате. Сочетает лучшее из обоих типов.',shortTiming:'Hybrid fusion',timing:[],focus:'Кардио + Сила',intensity:'Средне-высокая',calories:'450–650'},
+  'Joker':{type:'hybrid',typeRu:'Гибрид',description:'Непредсказуемая hybrid-тренировка с постоянной сменой формата — не даёт телу адаптироваться.',shortTiming:'Mixed format',timing:[],focus:'Всё тело · Адаптация',intensity:'Высокая',calories:'500–700'},
+  'WeHo':{type:'cardio',typeRu:'Кардио',description:'Высокоэнергетическая кардио-сессия, сочетающая функциональную силу и выносливость.',shortTiming:'Cardio circuit',timing:[],focus:'Кардио · Выносливость',intensity:'Высокая',calories:'500–700'},
+  'Mkatz':{type:'resistance',typeRu:'Силовая',description:'Drop-set тренировка для построения качественной мышечной массы. Разные углы, темпы и нагрузки.',shortTiming:'Drop sets',timing:[{label:'Формат',value:'Drop set resistance'},{label:'Фокус',value:'Мышечная масса'},{label:'Особенность',value:'Разные углы и темпы'}],focus:'Всё тело · Гипертрофия',intensity:'Средне-высокая',calories:'350–500'},
+  // === Series 1 Phase 2 (Build) ===
+  'Empire':{type:'hybrid',typeRu:'Гибрид',description:'Командные комбо-сеты, объединяющие силу и кардио в интенсивных парных упражнениях.',shortTiming:'Team combo sets',timing:[],focus:'Командная работа · Сила + Кардио',intensity:'Высокая',calories:'500–700'},
+  'Iceberg':{type:'resistance',typeRu:'Силовая',description:'Resistance с фокусом на time under tension. Паузы в движениях для максимального контроля и техники.',shortTiming:'Time under tension',timing:[{label:'Формат',value:'Paused reps + TUT'},{label:'Фокус',value:'Время под нагрузкой'}],focus:'Всё тело · Мышечная сила',intensity:'Средне-высокая',calories:'350–500'},
+  'Triple Double':{type:'cardio',typeRu:'Кардио',description:'Интенсивная кардио-сессия с тройными и двойными интервалами для максимального жиросжигания.',shortTiming:'Triple/double intervals',timing:[],focus:'Кардио · Жиросжигание',intensity:'Очень высокая',calories:'600–800'},
+  '50/50':{type:'resistance',typeRu:'Силовая',description:'Сплит-тренировка 50/50: половина на верх тела, половина на низ. Выбирайте свой фокус.',shortTiming:'50/50 split',timing:[{label:'Формат',value:'Upper/lower split'},{label:'Выбор',value:'50% верх / 50% низ'}],focus:'Верх + Низ',intensity:'Средне-высокая',calories:'350–500'},
+  'FWD':{type:'hybrid',typeRu:'Гибрид',description:'Forward-движение: гибридная тренировка с акцентом на прогрессию и функциональные паттерны.',shortTiming:'Hybrid progression',timing:[],focus:'Функционал · Прогрессия',intensity:'Высокая',calories:'500–650'},
+  'Vegas':{type:'cardio',typeRu:'Кардио',description:'Высокоинтенсивная кардио-сессия — непредсказуемые интервалы и максимальная энергия.',shortTiming:'High-energy cardio',timing:[],focus:'Кардио · Макс. энергия',intensity:'Очень высокая',calories:'600–800'},
+  'GOAT':{type:'resistance',typeRu:'Силовая',description:'Greatest Of All Time — комбо-сеты на агонисты/антагонисты с варьирующимся временем для полного испытания.',shortTiming:'Combo sets · agonist/antagonist',timing:[{label:'Формат',value:'Combo sets'},{label:'Фокус',value:'Агонист/антагонист'},{label:'Особенность',value:'Варьирующееся время сетов'}],focus:'Всё тело · Сила',intensity:'Высокая',calories:'400–550'},
+  // === Series 1 Phase 3 (Peak) ===
+  'Enduro':{type:'cardio',typeRu:'Кардио',description:'Интенсивная кардио с пирамидальной структурой. 14 станций racetrack — время работы растёт, отдых минимальный.',shortTiming:'Пирамида 20с→60с',timing:[{label:'Станции',value:'14 станций · racetrack'},{label:'Сет 1',value:'20с работа / 5с отдых'},{label:'Сет 2',value:'30с / 5с'},{label:'Сет 3',value:'40с / 5с'},{label:'Сет 4',value:'50с / 5с'},{label:'Сет 5',value:'60с / 20с'}],focus:'Кардио-выносливость · Аэробная база',intensity:'Очень высокая',calories:'700–900'},
+  'Maximus':{type:'resistance',typeRu:'Силовая',description:'Resistance в подах по 9 станций. Фокус на максимальную мышечную нагрузку в пиковой фазе.',shortTiming:'9 станций · поды',timing:[{label:'Станции',value:'9 станций · поды'},{label:'Формат',value:'Resistance pods'}],focus:'Всё тело · Макс. нагрузка',intensity:'Высокая',calories:'400–550'},
+  'Marathon':{type:'cardio',typeRu:'Кардио',description:'14-станционная кардио на предельную выносливость. Длинные рабочие интервалы в пиковой фазе.',shortTiming:'14 станций · endurance',timing:[{label:'Станции',value:'14 станций'},{label:'Формат',value:'Long intervals cardio'}],focus:'Кардио · Предельная выносливость',intensity:'Очень высокая',calories:'600–850'},
+  'Two Fold':{type:'resistance',typeRu:'Силовая',description:'Сплит resistance для пиковой серии. Выбирайте верх или низ и работайте на максимум за 6 сетов.',shortTiming:'Split · 6 сетов · макс.',timing:[{label:'Формат',value:'Split resistance (Peak)'},{label:'Сеты',value:'6 сетов'},{label:'Выбор',value:'Upper или Lower'}],focus:'Верх или Низ · Пиковая сила',intensity:'Высокая',calories:'400–550'},
+  'Crossfire':{type:'hybrid',typeRu:'Гибрид',description:'Интенсивный hybrid в пиковой фазе — перекрёстный огонь кардио и силовых упражнений.',shortTiming:'Hybrid · peak intensity',timing:[],focus:'Кардио + Сила · Пик',intensity:'Очень высокая',calories:'550–750'},
+  'High Rise':{type:'hybrid',typeRu:'Гибрид',description:'Высокоинтенсивная гибридная тренировка пиковой фазы — подъём на новый уровень производительности.',shortTiming:'Hybrid · high intensity',timing:[],focus:'Всё тело · Пиковая форма',intensity:'Очень высокая',calories:'550–750'},
+  'Double Down':{type:'resistance',typeRu:'Силовая',description:'Суперсеты на схожие мышечные группы с гидом по time under tension от F45tv.',shortTiming:'Superset · TUT',timing:[{label:'Формат',value:'Superset resistance'},{label:'Фокус',value:'Схожие мышечные группы'},{label:'Особенность',value:'F45tv TUT guide'}],focus:'Всё тело · Суперсеты',intensity:'Средне-высокая',calories:'350–500'}
 };
 
 // ===== SERIES & PHASES =====
@@ -336,6 +367,25 @@ function countTypes(schedule) {
 }
 
 // ===== RENDER =====
+function renderSeriesTabs() {
+  const currentSeries = getSeriesForPhase(currentPhaseId);
+  const el = document.getElementById('seriesTabs');
+  el.innerHTML = SERIES.map(s => {
+    const active = s.id===currentSeries.id ? ' active' : '';
+    return `<button class="series-tab-btn${active}" data-series="${s.id}">${s.nameRu}</button>`;
+  }).join('');
+  el.querySelectorAll('.series-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const sid = parseInt(btn.dataset.series);
+      const s = SERIES.find(x=>x.id===sid);
+      if(s) { currentPhaseId=s.phases[0].id; currentWeek=0; currentFilter='all';
+        document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+        document.querySelector('[data-filter="all"]').classList.add('active');
+        renderAll(); }
+    });
+  });
+}
+
 function renderSeriesBanner() {
   const series = getSeriesForPhase(currentPhaseId);
   const el = document.getElementById('seriesBanner');
@@ -423,6 +473,7 @@ function renderCalendar() {
 }
 
 function renderAll() {
+  renderSeriesTabs();
   renderSeriesBanner();
   renderPhaseTabs();
   renderPhaseInfo();
