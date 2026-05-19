@@ -287,6 +287,14 @@ const WORKOUTS = {
 
 
 
+
+  // === Series 2 Phase 6 (Peak) — новые тренировки ===
+  '45':{type:'hybrid',typeRu:'Гибрид',description:'Командная эстафетная тренировка — обновлённая версия Tempest. 45 секунд максимальных усилий на командных станциях с эргами. Пока один работает — остальные восстанавливаются.',shortTiming:'45с / 0с отдых · реле · 3 круга',timing:[{label:'Формат',value:'Командное реле'},{label:'Работа',value:'45 сек'},{label:'Круги',value:'3'},{label:'Перемещение',value:'Поды (4)'}],focus:'Командная работа · Эрги · Макс.усилие',intensity:'Очень высокая',calories:'500–700',members:'32',stations:'16',movement:'Поды (4)',floorPlanType:'pods',podCount:4,bgColor:'#D6001C',logoText:'45',catalogDesc:'45 — переработанная версия Tempest. Командная эстафета: 45 секунд максимального усилия на каждой станции, ротация внутри пода. Цель — максимальный командный счёт на эрг-машинах.',catalogNotes:['Командная эстафета: один работает — остальные восстанавливаются.','Цель — максимальные метры/калории на эрг-станциях.']},
+  'Panthers':{type:'resistance',typeRu:'Силовая',description:'Силовая тренировка с акцентом на мощность нижней части тела и взрывные движения. Поды с разными упражнениями для комплексной нагрузки.',shortTiming:'40с/20с · 2 сета · 2 круга',timing:[{label:'Работа',value:'40с'},{label:'Отдых',value:'20с'},{label:'Перемещение',value:'Поды (3)'}],focus:'Нижняя часть тела · Взрывная сила',intensity:'Высокая',calories:'380–520',members:'27',stations:'9',movement:'Поды (3)',floorPlanType:'pods',podCount:3,bgColor:'#1a3d00',logoText:'PANTHERS',catalogDesc:'Panthers — силовая тренировка в стиле хищника. Акцент на мощные движения нижней части тела и взрывные паттерны для максимального рекрутирования мышечных волокон.',catalogNotes:['Держите взрывной темп на подъёме и контролируемый на опускании.','Фокус на нижнюю часть тела в каждом поде.']},
+  'Apollo':{type:'hybrid',typeRu:'Гибрид',description:'Абсолютно новая тренировка F45 2026. Гибридный формат с космической энергетикой — детали будут раскрыты при старте фазы.',shortTiming:'TBA — новая тренировка',timing:[{label:'Тип',value:'Гибрид'},{label:'Статус',value:'Новая тренировка Phase 6 2026'}],focus:'TBA',intensity:'Высокая',calories:'TBA',members:'TBA',stations:'TBA',movement:'TBA',floorPlanType:'racetrack',podCount:1,bgColor:'#0d1a33',logoText:'APOLLO',catalogDesc:'Apollo — абсолютно новая тренировка, дебютирующая в Phase 6 2026. Информация будет обновлена после старта фазы 25 мая.',catalogNotes:['Новая тренировка — информация появится 25 мая 2026.']},
+  'Desert Heat':{type:'hybrid',typeRu:'Гибрид',description:'Вдохновлена пустыней — высокоинтенсивная гибридная тренировка с нарастающим жаром. Кардио и сила в раскалённом темпе.',shortTiming:'45с/15с · 2 сета · 2 круга',timing:[{label:'Работа',value:'45с'},{label:'Отдых',value:'15с'},{label:'Перемещение',value:'Racetrack'}],focus:'Кардио + Сила · Высокий темп',intensity:'Высокая',calories:'500–680',members:'27',stations:'9',movement:'Racetrack',floorPlanType:'racetrack',podCount:1,bgColor:'#c25a00',logoText:'DESERT HEAT',catalogDesc:'Desert Heat — гибридная тренировка вдохновлена жаром пустыни. Высокоинтенсивные интервалы сочетают кардио и силовые движения в нарастающем темпе.',catalogNotes:['Поддерживайте высокую интенсивность — как пустынный зной, без передышки.']},
+  'Track Stars':{type:'hybrid',typeRu:'Гибрид',description:'Партнёрская гибридная тренировка в формате You Go I Go (YGIG). Чередуетесь с партнёром: один работает — другой отдыхает. Атмосфера соревнования и командной поддержки.',shortTiming:'YGIG партнёр · 2 сета · 2 круга',timing:[{label:'Формат',value:'YGIG (You Go I Go)'},{label:'Перемещение',value:'Racetrack'},{label:'Особенность',value:'Партнёрская'}],focus:'Кардио + Сила · Партнёр',intensity:'Высокая',calories:'480–650',members:'36 (2 на станции)',stations:'18',movement:'Racetrack',floorPlanType:'racetrack',podCount:1,bgColor:'#1a0066',logoText:'TRACK STARS',catalogDesc:'Track Stars — партнёрская субботняя тренировка в формате YGIG (You Go I Go). Пока один выполняет упражнение — второй отдыхает, затем меняетесь. Соревновательная атмосфера на скоростной дорожке.',catalogNotes:['YGIG: один работает, второй отдыхает — затем меняетесь.','Мотивируйте партнёра во время его подхода!']},
+  'Medusa':{type:'resistance',typeRu:'Силовая',description:'Силовая тренировка с медленным контролируемым темпом. Каждое движение выполняется с паузой для максимального времени под нагрузкой.',shortTiming:'TUT темп · 2 сета · 2 круга',timing:[{label:'Формат',value:'Time under tension'},{label:'Перемещение',value:'Поды (3)'}],focus:'Всё тело · Время под нагрузкой',intensity:'Средне-высокая',calories:'350–480',members:'27',stations:'9',movement:'Поды (3)',floorPlanType:'pods',podCount:3,bgColor:'#2a1a3d',logoText:'MEDUSA',catalogDesc:'Medusa — силовая тренировка с контролируемым темпом. Медленные движения с паузой в ключевых точках обеспечивают максимальную нагрузку на мышцы.',catalogNotes:['Медленный контролируемый темп — не торопитесь.','Пауза в нижней/верхней точке увеличивает время под нагрузкой.']},
   // === Series 2 Phase 5-7 — новые тренировки ===
   'Gemini':{type:'resistance',typeRu:'Силовая',description:'Двойная силовая тренировка с суперсетами. Два упражнения на выбор на каждой станции для максимальной нагрузки.',shortTiming:'35с/25с · 2 сета · 2 круга',timing:[{label:'Работа',value:'35с'},{label:'Отдых',value:'25с'},{label:'Перемещение',value:'Racetrack'}],focus:'Всё тело · Суперсеты',intensity:'Средне-высокая',calories:'380–520',members:'27',stations:'9',movement:'Racetrack',floorPlanType:'racetrack',podCount:1,bgColor:'#1a1a2e',logoText:'GEMINI'},
   'Southpaw':{type:'hybrid',typeRu:'Гибрид',description:'Гибридная тренировка вдохновлена боксом. Взрывные кардио-движения и силовые комбо в стиле левши.',shortTiming:'40с/15с · 2 сета · 2 круга',timing:[{label:'Работа',value:'40с'},{label:'Отдых',value:'15с'},{label:'Перемещение',value:'Поды (2)'}],focus:'Кардио + Сила · Бокс-стиль',intensity:'Высокая',calories:'500–680',members:'36',stations:'12',movement:'Поды (2)',floorPlanType:'pods',podCount:2,bgColor:'#2a0a0a',logoText:'SOUTHPAW'},
@@ -339,23 +347,21 @@ const SERIES = [
         schedule: ['T10','Romans','Foxtrot','Fusion','Joker','WeHo','Mkatz'] },
       { id: 2, name: 'Phase 2', nameRu: 'Фаза 2', type: 'Build', typeRu: 'Наращивание', start: '2026-02-02', end: '2026-03-01',
         schedule: ['Empire','Iceberg','Triple Double','50/50','FWD','Vegas','GOAT'] },
-      { id: 3, name: 'Phase 3', nameRu: 'Фаза 3', type: 'Peak', typeRu: 'Пик', start: '2026-03-02', end: '2026-03-29',
+      { id: 3, name: 'Phase 3', nameRu: 'Фаза 3', type: 'Пик', typeRu: 'Пик', start: '2026-03-02', end: '2026-03-29',
         schedule: ['Enduro','Maximus','Marathon','Two Fold','Crossfire','High Rise','Double Down'] }
     ]
   },
   {
     id: 2, name: 'Series 2', nameRu: 'Серия 2',
     description: 'Второй 12-недельный цикл. Новый набор тренировок с тем же принципом Base → Build → Peak. Организм адаптируется к новым движениям, сохраняя прогресс из первой серии.',
-    startDate: '2026-03-30', endDate: '2026-07-06',
+    startDate: '2026-03-30', endDate: '2026-06-21',
     phases: [
-      { id: 4, name: 'Phase 4', nameRu: 'Фаза 4', type: 'Base', typeRu: 'База', start: '2026-03-30', end: '2026-04-13',
+      { id: 4, name: 'Phase 4', nameRu: 'Фаза 4', type: 'Base', typeRu: 'База', start: '2026-03-30', end: '2026-04-26',
         schedule: ['Mont Blanc','Phoenix','Docklands','Duo','Drift','NoHo','Wingman'] },
-      { id: 5, name: 'Phase 5', nameRu: 'Фаза 5', type: 'Build', typeRu: 'Наращивание', start: '2026-04-14', end: '2026-05-11',
-        schedule: ['MVP','Romans','Foxtrot','Gemini','Miami Nights','SoCal','Southpaw'] },
-      { id: 6, name: 'Phase 6', nameRu: 'Фаза 6', type: 'Peak', typeRu: 'Пик', start: '2026-05-12', end: '2026-06-08',
-        schedule: ['Marathon','Red Diamond','22','50/50','The Nines','Riddler','Renegade'] },
-      { id: 7, name: 'Phase 7', nameRu: 'Фаза 7', type: 'Peak', typeRu: 'Пик', start: '2026-06-09', end: '2026-07-06',
-        schedule: ['Redline','Titans','Bears','Two Fold','T10','High Rise','Double Down'] }
+      { id: 5, name: 'Phase 5', nameRu: 'Фаза 5', type: 'Build', typeRu: 'Наращивание', start: '2026-04-27', end: '2026-05-24',
+        schedule: ['Seoul Rush','Red Diamond','Bears','Hammer','Apex','SoCal','Liberty'] },
+      { id: 6, name: 'Phase 6', nameRu: 'Фаза 6', type: 'Peak', typeRu: 'Пик', start: '2026-05-25', end: '2026-06-21',
+        schedule: ['45','Panthers','22','Apollo','Desert Heat','Track Stars','Medusa'] }
     ]
   }
 ];
@@ -366,7 +372,7 @@ const MONTHS_RU = ['января','февраля','марта','апреля','
 const PHASE_TYPES = {Base:'🏗️',Build:'⚡',Peak:'🔥'};
 
 // ===== STATE =====
-let currentPhaseId = 6;
+let currentPhaseId = 5;
 let currentWeek = 0;
 let currentFilter = 'all';
 
