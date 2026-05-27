@@ -289,7 +289,298 @@ const WORKOUTS = {
 
 
   // === Series 2 Phase 6 (Peak) — новые тренировки ===
-  '45':{type:'hybrid',typeRu:'Гибрид',description:'Командная тренировка: 45 секунд максимума на подиум-станциях, пока тиммейты восстанавливаются. Без отдыха между сетами — эндьюранс, сила и командный дух в одном.',shortTiming:'45с / 0с · 3 круга · Поды (4)',timing:[{label:'Тип',value:'Hybrid · Team Based'},{label:'Работа',value:'45с'},{label:'Отдых',value:'0с (нет между сетами)'},{label:'Круги',value:'3'},{label:'Станции',value:'16'},{label:'Перемещение',value:'Поды (4)'}],focus:'Команда · Максимальный выход · Эрги',intensity:'Очень высокая',calories:'550–750',members:'32 (3 на станции)',stations:'16',movement:'Поды (4)',subtype:'Team Based',floorPlanType:'pods',podCount:4,bgColor:'#1a1a4a',logoText:'FORTY FIVE',catalogDesc:'Приготовьтесь к 45 — главному командному испытанию! Набирайте максимум очков на подиум-станциях. Используйте 45 секунд на полный выход — пока тиммейты восстанавливаются. Без отдыха между сетами: выносливость, сила и командная работа.',catalogNotes:['Без отдыха между сетами — тиммейты сменяют друг друга мгновенно.','На подиум-станциях цель — максимальные очки: метры, калории, повторения.','Круг 1 — контролируемый темп. Круг 3 — всё на максимум.','Тренер: заранее объясните ротацию внутри пода и кто когда работает.','Поощряйте командную поддержку — крики, аплодисменты повышают выход.'],{label:'Работа',value:'45с'},{label:'Отдых',value:'0с (нет между сетами)'},{label:'Круги',value:'3'},{label:'Перемещение',value:'Поды (4)'}],focus:'Команда · Максимальный выход · Эрги',intensity:'Очень высокая',calories:'550–750',members:'32 (3 на станции)',stations:'16',movement:'Поды (4)',subtype:'Team Based',floorPlanType:'pods',podCount:4,bgColor:'#1a1a4a',logoText:'FORTY FIVE',catalogDesc:'Приготовьтесь к 45 — главному командному испытанию! Набирайте максимум очков на подиум-станциях. Используйте 45 секунд на полный выход — пока тиммейты восстанавливаются. Без отдыха между сетами: выносливость, сила и командная работа.',catalogNotes:['Без отдыха между сетами — тиммейты сменяют друг друга мгновенно.','На подиум-станциях цель — максимальные очки: метры, калории, повторения.','Тренер: заранее объясните принцип ротации и кто когда работает.','Поощряйте командную поддержку — крики и аплодисменты повышают выход.']},
+  '45':{type:'hybrid',typeRu:'Гибрид',description:'Командная тренировка: 45 секунд максимума на подиум-станциях, пока тиммейты восстанавливаются. Без отдыха между сетами — эндьюранс, сила и командный дух в одном.',shortTiming:'45с / 0с · 3 круга · Поды (4)',timing:[{label:'Тип',value:'Hybrid · Team Based'},{label:'Работа',value:'45с'},{label:'Отдых',value:'0с (нет между сетами)'},{label:'Круги',value:'3'},{label:'Станции',value:'16'},{label:'Перемещение',value:'Поды (4)'}],focus:'Команда · Максимальный выход · Эрги',intensity:'Очень высокая',calories:'550–750',members:'32 (3 на станции)',stations:'16',movement:'Поды (4)',subtype:'Team Based',floorPlanType:'pods',podCount:4,bgColor:'#1a1a4a',logoText:'FORTY FIVE',catalogDesc:'Приготовьтесь к 45 — главному командному испытанию! Набирайте максимум очков на подиум-станциях. Используйте 45 секунд на полный выход — пока тиммейты восстанавливаются. Без отдыха между сетами: выносливость, сила и командная работа.',catalogNotes:['Без отдыха между сетами — тиммейты сменяют друг друга мгновенно.','На подиум-станциях цель — максимальные очки: метры, калории, повторения.','Круг 1 — контролируемый темп. Круг 3 — всё на максимум.','Тренер: заранее объясните ротацию внутри пода и кто когда работает.','Поощряйте командную поддержку — крики, аплодисменты повышают выход.']DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F45 — Календарь тренировок 2026</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --font-body:'Inter','Helvetica Neue',Arial,sans-serif;
+  --text-xs:clamp(.7rem,.65rem + .25vw,.8rem);
+  --text-sm:clamp(.8rem,.75rem + .25vw,.9rem);
+  --text-base:clamp(.9rem,.85rem + .25vw,1rem);
+  --text-lg:clamp(1.1rem,1rem + .5vw,1.35rem);
+  --text-xl:clamp(1.4rem,1.1rem + 1vw,2rem);
+  --text-2xl:clamp(1.8rem,1.2rem + 2vw,2.8rem);
+  --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;
+  --space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;
+  --radius-sm:.375rem;--radius-md:.5rem;--radius-lg:.75rem;--radius-xl:1rem;--radius-full:9999px;
+  --transition:180ms cubic-bezier(.16,1,.3,1);
+  --f45-red:#D6001C;--f45-red-hover:#BB051D;
+  --f45-navy:#211551;--f45-navy-light:#4531A6;
+}
+
+[data-theme="dark"]{
+  --color-bg:#0d0a1a;--color-surface:#161230;--color-surface-2:#1c1640;
+  --color-surface-elevated:#241d4a;--color-border:#2a2255;--color-border-hover:#3d3370;
+  --color-text:#eceaf5;--color-text-muted:#9490b0;--color-text-faint:#605c80;
+  --color-accent:var(--f45-red);--color-accent-hover:var(--f45-red-hover);
+  --color-cardio:#ff8c42;--color-resistance:#7c6bff;--color-hybrid:#2dd4a8;
+  --shadow-md:0 4px 16px rgba(0,0,0,.5);--shadow-lg:0 12px 40px rgba(0,0,0,.6);
+}
+
+[data-theme="light"]{
+  --color-bg:#f5f4f8;--color-surface:#fff;--color-surface-2:#f9f8fc;
+  --color-surface-elevated:#fff;--color-border:#e2dff0;--color-border-hover:#d0cbea;
+  --color-text:#1a1535;--color-text-muted:#6b6590;--color-text-faint:#a5a0be;
+  --color-accent:#c2001a;--color-accent-hover:#a00016;
+  --color-cardio:#d96a20;--color-resistance:#5a4dc7;--color-hybrid:#0f9d7a;
+  --shadow-md:0 4px 16px rgba(33,21,81,.08);--shadow-lg:0 12px 40px rgba(33,21,81,.12);
+}
+
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg);line-height:1.6}
+.container{max-width:1200px;margin:0 auto;padding:0 var(--space-6)}
+
+/* HEADER */
+.header{padding:var(--space-8) 0 var(--space-5);border-bottom:1px solid var(--color-border);margin-bottom:var(--space-5)}
+.header-top{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);margin-bottom:var(--space-4)}
+.logo-area{display:flex;align-items:center;gap:var(--space-4)}
+.logo-mark{width:52px;height:52px;background:var(--f45-red);border-radius:var(--radius-lg);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:#fff;flex-shrink:0}
+.logo-text h1{font-size:var(--text-xl);font-weight:800;line-height:1.15;letter-spacing:-.03em}
+.logo-text .subtitle{font-size:var(--text-xs);color:var(--color-text-muted);font-weight:500;margin-top:2px}
+.theme-toggle{cursor:pointer;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);width:40px;height:40px;display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);transition:all var(--transition);flex-shrink:0}
+.theme-toggle:hover{border-color:var(--color-border-hover);color:var(--color-text)}
+
+/* SERIES TABS */
+.series-tabs{display:flex;gap:var(--space-2);margin-bottom:var(--space-4)}
+.series-tab-btn{cursor:pointer;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:var(--space-2) var(--space-5);font-size:var(--text-sm);font-weight:700;color:var(--color-text-muted);transition:all var(--transition)}
+.series-tab-btn:hover{border-color:var(--color-border-hover);color:var(--color-text)}
+.series-tab-btn.active{background:var(--f45-red);border-color:var(--f45-red);color:#fff}
+
+/* SERIES BANNER */
+.series-banner{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--space-5) var(--space-6);margin-bottom:var(--space-5);position:relative;overflow:hidden}
+.series-banner::before{content:'';position:absolute;top:0;left:0;bottom:0;width:4px;background:var(--f45-red)}
+.series-name{font-size:var(--text-lg);font-weight:800;margin-bottom:var(--space-1);letter-spacing:-.02em}
+.series-desc{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.6;max-width:80ch}
+.series-meta{display:flex;gap:var(--space-6);margin-top:var(--space-3);flex-wrap:wrap}
+.series-meta-item{font-size:var(--text-xs);color:var(--color-text-faint);font-weight:500}
+.series-meta-item strong{color:var(--color-text);font-weight:700}
+
+/* PHASE TABS */
+.phase-tabs{display:flex;gap:var(--space-2);margin-bottom:var(--space-5);flex-wrap:wrap}
+.phase-tab{cursor:pointer;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-3) var(--space-5);font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);transition:all var(--transition);display:flex;flex-direction:column;gap:2px;min-width:140px}
+.phase-tab:hover{border-color:var(--color-border-hover);color:var(--color-text)}
+.phase-tab.active{background:var(--f45-navy);border-color:var(--f45-navy);color:#fff}
+.phase-tab .tab-label{font-size:var(--text-xs);opacity:.7;font-weight:500}
+.phase-tab .tab-name{font-weight:700}
+.phase-tab.active .tab-label{opacity:.8}
+.phase-tab.future{opacity:.5;border-style:dashed}
+
+/* PHASE INFO */
+.phase-info{display:flex;align-items:center;gap:var(--space-6);margin-bottom:var(--space-5);flex-wrap:wrap}
+.date-chip{display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-sm);color:var(--color-text-muted)}
+.date-chip svg{width:16px;height:16px;flex-shrink:0}
+.date-chip strong{color:var(--color-text);font-weight:600}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-3);margin-bottom:var(--space-5)}
+.stat-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-4);text-align:center}
+.stat-card .stat-value{font-size:var(--text-xl);font-weight:800;line-height:1.2}
+.stat-card .stat-value.cardio{color:var(--color-cardio)}
+.stat-card .stat-value.resistance{color:var(--color-resistance)}
+.stat-card .stat-value.hybrid{color:var(--color-hybrid)}
+.stat-card .stat-label{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:2px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+
+/* FILTERS */
+.filters{display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-5);flex-wrap:wrap}
+.filter-btn{cursor:pointer;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:var(--space-2) var(--space-5);font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);transition:all var(--transition);white-space:nowrap}
+.filter-btn:hover{border-color:var(--color-border-hover);color:var(--color-text)}
+.filter-btn.active{background:var(--color-text);color:var(--color-bg);border-color:var(--color-text)}
+.filter-btn.active[data-filter="cardio"]{background:var(--color-cardio);border-color:var(--color-cardio);color:#fff}
+.filter-btn.active[data-filter="resistance"]{background:var(--color-resistance);border-color:var(--color-resistance);color:#fff}
+.filter-btn.active[data-filter="hybrid"]{background:var(--color-hybrid);border-color:var(--color-hybrid);color:#fff}
+
+/* WEEK NAV */
+.week-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-5)}
+.week-title{font-size:var(--text-lg);font-weight:700}
+.week-nav-btns{display:flex;gap:var(--space-2)}
+.nav-btn{cursor:pointer;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);transition:all var(--transition)}
+.nav-btn:hover{border-color:var(--color-border-hover);color:var(--color-text)}
+.nav-btn:disabled{opacity:.3;cursor:not-allowed}
+
+/* CALENDAR */
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:var(--space-3);margin-bottom:var(--space-8)}
+.day-header{text-align:center;font-size:var(--text-xs);font-weight:700;color:var(--color-text-faint);text-transform:uppercase;letter-spacing:.08em;padding-bottom:var(--space-2)}
+.day-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-4);cursor:pointer;transition:all var(--transition);min-height:140px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.day-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--radius-lg) var(--radius-lg) 0 0}
+.day-card[data-type="cardio"]::before{background:var(--color-cardio)}
+.day-card[data-type="resistance"]::before{background:var(--color-resistance)}
+.day-card[data-type="hybrid"]::before{background:var(--color-hybrid)}
+.day-card:hover{border-color:var(--color-border-hover);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.day-card.today{border-color:var(--f45-red);box-shadow:0 0 0 1px var(--f45-red)}
+.day-card.hidden{opacity:.12;pointer-events:none;transform:scale(.97)}
+.day-card .day-date{font-size:var(--text-xs);color:var(--color-text-faint);font-weight:500;margin-bottom:var(--space-1)}
+.day-card .day-name{font-size:var(--text-base);font-weight:700;margin-bottom:var(--space-1);line-height:1.3}
+.day-card .day-timing{font-size:.7rem;color:var(--color-text-muted);margin-bottom:var(--space-2);line-height:1.4}
+.day-card .day-type{display:inline-flex;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:auto;padding:3px 10px;border-radius:var(--radius-full)}
+.day-card[data-type="cardio"] .day-type{color:var(--color-cardio);background:rgba(255,140,66,.12)}
+.day-card[data-type="resistance"] .day-type{color:var(--color-resistance);background:rgba(124,107,255,.12)}
+.day-card[data-type="hybrid"] .day-type{color:var(--color-hybrid);background:rgba(45,212,168,.12)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(13,10,26,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:100;display:flex;align-items:center;justify-content:center;padding:var(--space-6);opacity:0;pointer-events:none;transition:opacity 200ms ease}
+.modal-overlay.active{opacity:1;pointer-events:auto}
+.modal{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);max-width:560px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:var(--shadow-lg);transform:translateY(16px) scale(.97);transition:transform 200ms ease}
+.modal-overlay.active .modal{transform:translateY(0) scale(1)}
+.modal-header{position:relative;padding:var(--space-6) var(--space-6) var(--space-4)}
+.modal-header::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:var(--radius-xl) var(--radius-xl) 0 0}
+.modal[data-type="cardio"] .modal-header::before{background:var(--color-cardio)}
+.modal[data-type="resistance"] .modal-header::before{background:var(--color-resistance)}
+.modal[data-type="hybrid"] .modal-header::before{background:var(--color-hybrid)}
+.modal-close{position:absolute;top:var(--space-4);right:var(--space-4);cursor:pointer;background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-full);width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);transition:all var(--transition)}
+.modal-close:hover{color:var(--color-text);border-color:var(--color-border-hover)}
+.modal-date{font-size:var(--text-xs);color:var(--color-text-muted);font-weight:500;margin-bottom:var(--space-1)}
+.modal-title{font-size:var(--text-xl);font-weight:800;line-height:1.15;letter-spacing:-.02em}
+.modal-type-badge{display:inline-flex;font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:3px var(--space-3);border-radius:var(--radius-full);margin-top:var(--space-3)}
+.modal[data-type="cardio"] .modal-type-badge{color:var(--color-cardio);background:rgba(255,140,66,.12)}
+.modal[data-type="resistance"] .modal-type-badge{color:var(--color-resistance);background:rgba(124,107,255,.12)}
+.modal[data-type="hybrid"] .modal-type-badge{color:var(--color-hybrid);background:rgba(45,212,168,.12)}
+.modal-body{padding:0 var(--space-6) var(--space-6)}
+.modal-desc{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.7;margin-bottom:var(--space-5)}
+.timing-section{background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-5)}
+.timing-title{font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--color-text-faint);margin-bottom:var(--space-3)}
+.timing-row{display:flex;align-items:center;justify-content:space-between;padding:var(--space-2) 0;border-bottom:1px solid var(--color-border);font-size:var(--text-sm)}
+.timing-row:last-child{border-bottom:none}
+.timing-row .label{color:var(--color-text-muted);font-weight:500}
+.timing-row .value{color:var(--color-text);font-weight:700;font-variant-numeric:tabular-nums}
+.modal-details{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3)}
+.detail-item{background:var(--color-surface-2);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4)}
+.detail-item .detail-label{font-size:.65rem;color:var(--color-text-faint);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:2px}
+.detail-item .detail-value{font-size:var(--text-sm);font-weight:700;color:var(--color-text)}
+
+.footer{border-top:1px solid var(--color-border);padding:var(--space-5) 0;text-align:center;font-size:var(--text-xs);color:var(--color-text-faint)}
+
+@media(max-width:768px){
+  .calendar-grid{grid-template-columns:1fr;gap:var(--space-2)}
+  .day-header{display:none}
+  .day-card{min-height:auto;flex-direction:row;align-items:center;gap:var(--space-3);padding:var(--space-3) var(--space-4)}
+  .day-card::before{width:3px;height:100%;border-radius:var(--radius-lg) 0 0 var(--radius-lg);right:auto;bottom:0}
+  .day-card .day-date{min-width:48px;margin-bottom:0;font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted)}
+  .day-card .day-name{margin-bottom:0;flex:1}
+  .day-card .day-timing{display:none}
+  .day-card .day-type{margin-top:0}
+  .stats-row{gap:var(--space-2)}
+  .stat-card{padding:var(--space-3)}
+  .phase-tab{min-width:auto;padding:var(--space-2) var(--space-4)}
+}
+
+@media(max-width:480px){
+  .container{padding:0 var(--space-4)}
+  .filter-btn{padding:var(--space-2) var(--space-3);font-size:var(--text-xs)}
+}
+
+@media(prefers-color-scheme:dark){:root:not([data-theme]){
+  --color-bg:#0d0a1a;--color-surface:#161230;--color-surface-2:#1c1640;
+  --color-surface-elevated:#241d4a;--color-border:#2a2255;--color-border-hover:#3d3370;
+  --color-text:#eceaf5;--color-text-muted:#9490b0;--color-text-faint:#605c80;
+  --color-accent:#D6001C;--color-accent-hover:#BB051D;
+  --color-cardio:#ff8c42;--color-resistance:#7c6bff;--color-hybrid:#2dd4a8;
+  --shadow-md:0 4px 16px rgba(0,0,0,.5);--shadow-lg:0 12px 40px rgba(0,0,0,.6)
+}}
+
+/* CATALOG SECTION */
+.catalog-section { margin-top: var(--space-4); }
+.catalog-section-title { font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--color-text-faint); margin-bottom: var(--space-3); }
+.floor-plan { border-radius: var(--radius-md); margin-bottom: var(--space-4); overflow: hidden; }
+.floor-plan img { width: 100%; height: auto; display: block; border-radius: var(--radius-md); }
+.workout-stats-mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); margin-bottom: var(--space-4); }
+.stat-mini { background: var(--color-surface-2); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3); text-align: center; }
+.stat-mini .sm-label { font-size: .6rem; color: var(--color-text-faint); text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
+.stat-mini .sm-value { font-size: var(--text-xs); font-weight: 700; color: var(--color-text); margin-top: 2px; }
+.catalog-notes-list { margin: 0; padding-left: var(--space-5); font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.7; }
+.catalog-notes-list li { margin-bottom: var(--space-2); }
+.catalog-desc { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-4); font-style: italic; border-left: 3px solid var(--color-border); padding-left: var(--space-4); }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header class="header">
+    <div class="header-top">
+      <div class="logo-area">
+        <div class="logo-mark">F45</div>
+        <div class="logo-text">
+          <h1>Календарь 2026</h1>
+          <div class="subtitle">Тренировки по фазам и сериям</div>
+        </div>
+      </div>
+      <button class="theme-toggle" data-theme-toggle aria-label="Переключить тему">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="series-tabs" id="seriesTabs"></div>
+  <div class="series-banner" id="seriesBanner"></div>
+  <div class="phase-tabs" id="phaseTabs"></div>
+  <div class="phase-info" id="phaseInfo"></div>
+
+  <div class="stats-row" id="statsRow"></div>
+
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">Все</button>
+    <button class="filter-btn" data-filter="cardio">Кардио</button>
+    <button class="filter-btn" data-filter="resistance">Силовые</button>
+    <button class="filter-btn" data-filter="hybrid">Гибрид</button>
+  </div>
+
+  <div class="week-nav">
+    <div class="week-title" id="weekTitle">Неделя 1</div>
+    <div class="week-nav-btns">
+      <button class="nav-btn" id="prevWeek"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <button class="nav-btn" id="nextWeek"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+
+  <div class="calendar-grid" id="calendarGrid"></div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <button class="modal-close" id="modalClose"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div class="modal-date" id="modalDate"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-type-badge" id="modalBadge"></div>
+    </div>
+    <div class="modal-body">
+      <p class="modal-desc" id="modalDesc"></p>
+      <div id="modalTiming"></div>
+      <div id="modalCatalog"></div>
+      <div class="modal-details" id="modalDetails"></div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer"><div class="container">F45 Training · 2026</div></footer>
+
+<script>
+// ===== WORKOUT DATABASE =====
+const WORKOUTS = {
+  // === Series 2 Phase 4 (Base) ===
+  'Mont Blanc':{type:'cardio',typeRu:'Кардио',description:'Тренировка вдохновлена зимними видами спорта — лучшие упражнения «за пределами склонов». 9 станций с движением Follow the Leader.',shortTiming:'40с/20с · 2 сета · 2 круга',timing:[{label:'Работа / Отдых',value:'40 сек / 20 сек'},{label:'Сеты',value:'2'},{label:'Круги',value:'2'},{label:'Перемещение',value:'Follow the Leader'}],focus:'Всё тело · Функциональная сила',intensity:'Высокая',calories:'500–700',members:'27 (3 на станции)',stations:'9',movement:'Follow the Leader',subtype:'Snow sports inspired',floorPlanType:'follow_the_leader',podCount:1,bgColor:'#1a2a3a',logoText:'MONT BLANC',catalogDesc:'Mont Blanc — тренировка вдохновлена зимними видами спорта. 9 станций с движением Follow the Leader и упражнениями «за пределами склонов».',catalogNotes:['Вдохновлена лучшими упражнениями зимних видов спорта.','Follow the Leader — все движутся вместе как одна команда.']},
+  'Phoenix':{type:'resistance',typeRu:'Силовая',description:'Тренировка на гипертрофию. 3 сета по 10 повторений — вес для 8–12 повторений с прогрессией от сета к сету.',shortTiming:'3×10 · гипертрофия',timing:[{label:'Станции',value:'10 станций · 1 под'},{label:'Формат',value:'Hypertrophy 3×10'},{label:'Сеты',value:'3 сета'},{label:'Повторения',value:'8–12 (основные) / 12–15 (вспом.)'},{label:'Работа',value:'~35 сек на сет'}],focus:'Всё тело · Гипертрофия',intensity:'Средне-высокая',calories:'350–500',members:'30 (3 на станции)',stations:'10',movement:'Racetrack',subtype:'Hypertrophy 3x10',floorPlanType:'racetrack',podCount:1,bgColor:'#3d0000',logoText:'PHOENIX',catalogDesc:'Phoenix — силовая на гипертрофию в формате 3×10. Три сета по 10 повторений с прогрессирующим весом от сета к сету для максимального мышечного роста.',catalogNotes:['3 сета × 10 повторений. Вес должен быть сложным, но выполнимым на 10 повт.','Прогрессируйте вес: сет 1 — умеренный, сет 2 — тяжелее, сет 3 — максимальный.','Отдых 30 сек между сетами.']},
+  'Docklands':{type:'cardio',typeRu:'Кардио',description:'Кардио-сессия с убывающими интервалами и акцентом на bodyweight-упражнения, тренирующая аэробную выносливость на разных скоростях.',shortTiming:'60/30 → 30/15 → 20/10 → 20/5',timing:[{label:'Круг 1',value:'60с работа / 30с отдых'},{label:'Круг 2',value:'30с работа / 15с отдых'},{label:'Круг 3',value:'20с работа / 10с отдых'},{label:'Круг 4',value:'20с работа / 5с отдых'},{label:'Перемещение',value:'Поды (3)'}],focus:'Кардио-выносливость · Жиросжигание',intensity:'Очень высокая',calories:'600–800',members:'36 (3 на станции)',stations:'12 (3 пода)',movement:'Поды (3)',subtype:'Aerobic',floorPlanType:'pods',podCount:3,bgColor:'#002244',logoText:'DOCKLANDS',catalogDesc:'Docklands — кардио с убывающими интервалами. Четыре круга с разными соотношениями работа/отдых тренируют аэробную систему на разных уровнях интенсивности.',catalogNotes:['Круг 1 (60/30): 50% усилий — выносливость, 18-25 повторений.','Круг 2 (30/15): 75% — аёмкость, 12-18 повторений.','Круги 3-4 (20/10 и 20/5): 90% — мощность, 8-12 повторений.']},
+  'Duo':{type:'resistance',typeRu:'Силовая',description:'На каждой станции два движения — верх и низ тела. Выбирайте упражнение, которое максимально бросает вызов и соответствует вашим целям.',shortTiming:'35с/20с · 4 сета · 1 круг',timing:[{label:'Сет 1',value:'35с / 20с отдых'},{label:'Сет 2',value:'35с / 20с отдых'},{label:'Сет 3',value:'35с / 20с отдых'},{label:'Сет 4',value:'35с / 30с отдых'},{label:'Круги',value:'1'},{label:'Перемещение',value:'Racetrack'}],focus:'Верх + Низ · Перегрузка',intensity:'Средне-высокая',calories:'350–500',members:'30 (3 на станции)',stations:'10 (5 комбо-пар)',movement:'Racetrack',subtype:'Choose your own journey',floorPlanType:'racetrack',podCount:1,bgColor:'#001a33',logoText:'DUO',catalogDesc:'Duo — на каждой станции два движения: верх и низ тела. Выбирайте упражнение, которое максимально бросает вызов. 4 комбо-сета с нарастающим отдыхом.',catalogNotes:['Каждая станция: выбор между упражнением на верх или низ тела.','4 комбо-сета: первые 3 по 35с/20с, последний 35с/30с.','Racetrack — движение по одному кругу.']},
+  'Drift':{type:'hybrid',typeRu:'Гибрид',description:'AMRAP-тренировка: дрейфуйте между двумя упражнениями, выполняя максимум раундов за отведённое время. Убывающая структура повторений при нарастающей интенсивности.',shortTiming:'AMRAP · 60/45/30с · 8→6→4 повт.',timing:[{label:'Круг 1',value:'60с работа / 15с отдых · 8 повт.'},{label:'Круг 2',value:'45с работа / 15с отдых · 6 повт.'},{label:'Круг 3',value:'30с работа / 10с отдых · 4 повт.'},{label:'Формат',value:'AMRAP — макс. раундов'},{label:'Перемещение',value:'Поды (3)'}],focus:'Кардио + Сила · Скорость',intensity:'Высокая',calories:'500–650',members:'36 (3 на станции)',stations:'12 (3 пода)',movement:'Поды (3)',subtype:'AMRAP',floorPlanType:'pods',podCount:3,bgColor:'#003322',logoText:'DRIFT',catalogDesc:'Drift — гибридная AMRAP-тренировка. На каждой станции два упражнения — выполняйте максимум раундов за убывающее время. Интенсивность нарастает круг за кругом.',catalogNotes:['AMRAP: максимум раундов (A+B) за отведённое время.','Круг 1: 60с/15с, 8 повт. Круг 2: 45с/15с, 6 повт. Круг 3: 30с/10с, 4 повт.','Цель — увеличивать интенсивность по мере уменьшения времени.']},
+  'NoHo':{type:'hybrid',typeRu:'Гибрид',description:'60-минутная гибридная тренировка — сестра Hollywood и West Hollywood. До 36 участников на 18 станциях: сила, bodyweight, функционал, ловкость и плиометрика.',shortTiming:'20/10×2 → 60/20 → 20/10 · 60 мин',timing:[{label:'Круг 1',value:'20с / 10с × 2 сета'},{label:'Круг 2',value:'60с / 20с × 1 сет'},{label:'Круг 3',value:'20с / 10с × 1 сет'},{label:'Перемещение',value:'Follow the Leader'},{label:'Длительность',value:'60 минут'}],focus:'Полное тело · Макс. сжигание',intensity:'Очень высокая',calories:'600–850',members:'36 (2 на станции)',stations:'18',movement:'Follow the Leader',subtype:'60-minutes',floorPlanType:'follow_the_leader',podCount:1,bgColor:'#1a1a1a',logoText:'NOHO',catalogDesc:'NoHo — 60-минутная гибридная тренировка: сила, bodyweight, функционал, ловкость и плиометрика. Сестра Hollywood и West Hollywood.',catalogNotes:['18 станций: сопротивление, собственный вес, функционал, ловкость, плиометрика.','3 круга с разными таймингами: 20/10 × 2, 60/20 × 1, 20/10 × 1.','Follow the Leader — помогайте участникам не теряться при быстрых переходах.']},
+  'Wingman':{type:'resistance',typeRu:'Силовая',description:'Парная силовая тренировка с суперсетами и перегрузкой — контролируемая, эффективная работа. Приведите лучшего напарника для дополнительной мотивации!',shortTiming:'35с/25с · 2 комбо-сета · 1 круг',timing:[{label:'Работа / Отдых',value:'35 сек / 25 сек'},{label:'Сеты',value:'2 комбо-сета'},{label:'Круги',value:'1'},{label:'Перемещение',value:'Поды (3)'},{label:'Станции',value:'18 (9 комбо-пар)'}],focus:'Всё тело · Партнёрская перегрузка',intensity:'Средне-высокая',calories:'350–500',members:'36 (2 на станции)',stations:'18 (9 комбо-пар)',movement:'Поды (3)',subtype:'Super set',floorPlanType:'pods',podCount:3,bgColor:'#001433',logoText:'WINGMAN',catalogDesc:'Wingman — парная силовая тренировка с суперсетами. Приведите лучшего напарника для дополнительной мотивации и командной перегрузки.',catalogNotes:['18 станций в 3 подах — 9 комбо-пар.','2 комбо-сета: 35с/25с на каждую пару упражнений.','Партнёрский формат создаёт дополнительную мотивацию и ответственность.']},
+
+
+
+
+  // === Series 2 Phase 6 (Peak) — новые тренировки ===
+  '45':{type:'hybrid',typeRu:'Гибрид',description:'Командная тренировка: 45 секунд максимума на подиум-станциях, пока тиммейты восстанавливаются. Без отдыха между сетами — эндьюранс, сила и командный дух в одном.',shortTiming:'45с / 0с · 3 круга · Поды (4)',timing:[{label:'Тип',value:'Hybrid · Team Based'},{label:'Работа',value:'45с'},{label:'Отдых',value:'0с (нет между сетами)'},{label:'Круги',value:'3'},{label:'Станции',value:'16'},{label:'Перемещение',value:'Поды (4)'}],focus:'Команда · Максимальный выход · Эрги',intensity:'Очень высокая',calories:'550–750',members:'32 (3 на станции)',stations:'16',movement:'Поды (4)',subtype:'Team Based',floorPlanType:'pods',podCount:4,bgColor:'#1a1a4a',logoText:'FORTY FIVE',catalogDesc:'Приготовьтесь к 45 — главному командному испытанию! Набирайте максимум очков на подиум-станциях. Используйте 45 секунд на полный выход — пока тиммейты восстанавливаются. Без отдыха между сетами: выносливость, сила и командная работа.',catalogNotes:['Без отдыха между сетами — тиммейты сменяют друг друга мгновенно.','На подиум-станциях цель — максимальные очки: метры, калории, повторения.','Круг 1 — контролируемый темп. Круг 3 — всё на максимум.','Тренер: заранее объясните ротацию внутри пода и кто когда работает.','Поощряйте командную поддержку — крики, аплодисменты повышают выход.'},
   'Panthers':{type:'resistance',typeRu:'Силовая',description:'Силовая тренировка на всё тело с темповыми упражнениями. 14 станций, 3 сета, упор на прогрессивную нагрузку и время под нагрузкой.',shortTiming:'35с/20с · 3 сета · 1 круг',timing:[{label:'Тип',value:'Resistance'},{label:'Работа',value:'35с'},{label:'Отдых',value:'20с'},{label:'Сеты',value:'3'},{label:'Круги',value:'1'},{label:'Станции',value:'14'},{label:'Перемещение',value:'Open Floor / Single Pod'}],focus:'Всё тело · Прогрессивная нагрузка · TUT',intensity:'Высокая',calories:'380–520',members:'~27 (1–2 на станции)',stations:'14',movement:'Single Pod Racetrack',subtype:'Resistance',floorPlanType:'racetrack',podCount:1,bgColor:'#1a3d00',logoText:'PANTHERS',catalogDesc:'Panthers — комплексная силовая тренировка охватывающая вертикальный толчок/тягу, горизонтальный толчок/тягу, тазовый шарнир, приседание и выпад. Это не кардио-сессия — контролируйте каждое повторение, выбирайте тяжёлые веса.',catalogNotes:['Темп на ст. 6 (chest fly): 4-0-1 — 4 сек опускание, без паузы, 1 сек подъём. Считайте вслух.','Ст. 8 (bicycle crunch): 4-секундная фиксация в пиковой точке каждого повторения.','Прогрессируйте вес от сета к сету: если Сет 1 прошёл легко — добавьте нагрузку на Сет 2.','Ст. 14 (Barbell RDL с тягой): сначала шарнир бедра — плоская спина, хамстринги в нагрузке — потом тяга к нижней части груди.','Полнотелесная тренировка: верх + низ тела, тяга + толчок — напомните участникам выбирать серьёзные веса.'],{label:'Отдых',value:'20с'},{label:'Перемещение',value:'Поды (3)'}],focus:'Нижняя часть тела · Взрывная сила',intensity:'Высокая',calories:'380–520',members:'27',stations:'9',movement:'Поды (3)',floorPlanType:'pods',podCount:3,bgColor:'#1a3d00',logoText:'PANTHERS',catalogDesc:'Panthers — силовая тренировка в стиле хищника. Акцент на мощные движения нижней части тела и взрывные паттерны для максимального рекрутирования мышечных волокон.',catalogNotes:['Держите взрывной темп на подъёме и контролируемый на опускании.','Фокус на нижнюю часть тела в каждом поде.']},
   'Apollo':{type:'resistance',typeRu:'Силовая',description:'Абсолютно новая тренировка F45 2026. Силовая выносливость в трёх подах: верх тела (35/25 × 4 сета), центральный подъём (11:45 партнёрский блок), низ тела (35/25 × 4 сета).',shortTiming:'35с/25с × 4 · Pod2: 11:45 блок · 3 пода',timing:[{label:'Тип',value:'Resistance · Strength Endurance · НОВАЯ 2026'},{label:'Под 1 (верх тела)',value:'35с/25с · 4 сета · 1 круг'},{label:'Под 2 (центр. подъём)',value:'11:45 непрерывно · самостоятельный темп · 4–6 сетов'},{label:'Под 3 (низ тела)',value:'35с/25с · 4 сета · 1 круг'},{label:'Станции',value:'7+1+7 (3 пода)'},{label:'Перемещение',value:'Open Floor · 3 пода'}],focus:'Силовая выносливость · АТФ · Верх + Низ',intensity:'Высокая',calories:'400–550',members:'2 на станции (под 2 — партнёрский)',stations:'7 + 1 + 7',movement:'Open Floor (3 пода)',subtype:'Strength Endurance — Brand New 2026',floorPlanType:'pods',podCount:3,bgColor:'#0d1a33',logoText:'APOLLO',catalogDesc:'Apollo — абсолютно новая тренировка F45 для Phase 6 2026. Силовая выносливость нового формата: верх тела и низ тела в классических интервалах плюс революционный центральный блок 11:45 — партнёрский подъём для реального набора силы через АТФ-восстановление.',catalogNotes:['Под 2 — центральное упражнение тренировки. Объясните формат заранее: один поднимает ~1 мин, второй ждёт. Смена ролей — отдых партнёра НАМЕРЕННЫЙ, это не безделье.','Подбор веса для Под 2: 8–10 чистых повторений. Цель — 4–6 качественных сетов за 11:45.','АТФ-объяснение участникам: «За 1 мин восстанавливается 50% АТФ. Пока партнёр работает — вы восстанавливаетесь. Именно так строится настоящая сила.»','Ст. 6 (barbell bicep partials, Под 1): только 3 повторения — максимальное время под нагрузкой в пиковой точке. Медленно.','Front squat (Под 3): локти вперёд-вверх, грудь вертикально. Регрессия — скрещенные руки или гантели.','Apollo НОВАЯ тренировка — планируйте дополнительное время на объяснение перед классом. Нарисуйте схему трёх подов на доске.'],{label:'Статус',value:'Новая тренировка Phase 6 2026'}],focus:'TBA',intensity:'Высокая',calories:'TBA',members:'TBA',stations:'TBA',movement:'TBA',floorPlanType:'racetrack',podCount:1,bgColor:'#0d1a33',logoText:'APOLLO',catalogDesc:'Apollo — абсолютно новая тренировка, дебютирующая в Phase 6 2026. Информация будет обновлена после старта фазы 25 мая.',catalogNotes:['Новая тренировка — информация появится 25 мая 2026.']},
   'Desert Heat':{type:'hybrid',typeRu:'Гибрид',description:'Гибридная тренировка с чередованием кардио и силовых станций. 9 кардио + 9 силовых по racetrack, 40/20 · 2 сета · 2 круга.',shortTiming:'40с/20с · 2 сета · 2 круга · Racetrack',timing:[{label:'Тип',value:'Hybrid (Cardio + Resistance, чередование)'},{label:'Работа',value:'40с'},{label:'Отдых',value:'20с'},{label:'Сеты',value:'2'},{label:'Круги',value:'2'},{label:'Станции',value:'18 (9 кардио + 9 силовых)'},{label:'Перемещение',value:'Racetrack'}],focus:'Кардио + Сила · Эрги · Высокий темп',intensity:'Высокая',calories:'500–700',members:'27 (1–2 на станции)',stations:'18 (9C + 9R)',movement:'Racetrack',subtype:'Hybrid C/R alternating',floorPlanType:'racetrack',podCount:1,bgColor:'#c25a00',logoText:'DESERT HEAT',catalogDesc:'Desert Heat — гибридная тренировка с чередованием кардио и силовых станций по всему залу. Ski erg, Row erg, Bike erg как высокоинтенсивные якори в сочетании с тяжёлыми силовыми движениями.',catalogNotes:['Объясните формат перед классом: «Кардио-станция → силовая станция, чередуются по всему racetrack».','Ski erg и Row erg — максимальный выход: полное разгибание тела, сила бёдер, а не рук.','Plate snatch: мощь из ног и бёдер, руки только направляют — взрывное тройное разгибание перед подъёмом.','Barbell sumo deadlift (R-ст.9): выбор стойки. Шарнир бедра — штанга вплотную к телу, нейтральный позвоночник.','2 круга = большой объём. Подскажите участникам какие станции требуют максимума (эрги, берпи) а какие контроля (RDL, shoulder press).'],{label:'Отдых',value:'15с'},{label:'Перемещение',value:'Racetrack'}],focus:'Кардио + Сила · Высокий темп',intensity:'Высокая',calories:'500–680',members:'27',stations:'9',movement:'Racetrack',floorPlanType:'racetrack',podCount:1,bgColor:'#c25a00',logoText:'DESERT HEAT',catalogDesc:'Desert Heat — гибридная тренировка вдохновлена жаром пустыни. Высокоинтенсивные интервалы сочетают кардио и силовые движения в нарастающем темпе.',catalogNotes:['Поддерживайте высокую интенсивность — как пустынный зной, без передышки.']},
