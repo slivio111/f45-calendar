@@ -517,9 +517,22 @@ const SERIES = [
       { id: 4, name: 'Phase 4', nameRu: 'Фаза 4', type: 'Base', typeRu: 'База', start: '2026-03-30', end: '2026-04-26',
         schedule: ['Mont Blanc','Phoenix','Docklands','Duo','Drift','NoHo','Wingman'] },
       { id: 5, name: 'Phase 5', nameRu: 'Фаза 5', type: 'Build', typeRu: 'Наращивание', start: '2026-04-27', end: '2026-05-24',
-        schedule: ['Seoul Surge','Crimson Gem','Grizzlies','Sledge','Summit','Southern California','Freedom'] },
+        schedule: ['Seoul Rush','Red Diamond','Bears','Hammer','Apex','SoCal','Liberty'] },
       { id: 6, name: 'Phase 6', nameRu: 'Фаза 6', type: 'Peak', typeRu: 'Пик', start: '2026-05-25', end: '2026-06-21',
-        schedule: ['Pipeline','Tokyo Disco','Athletica','Zeus','Miami Nights','Riddler','Piston'] }
+        schedule: ['45','Panthers','22','Apollo','Desert Heat','Track Stars','Medusa'] }
+    ]
+  },
+  {
+    id: 3, name: 'Series 3', nameRu: 'Серия 3',
+    type: 'Base→Build→Peak', focus: 'TBA',
+    startDate: '2026-06-22', endDate: '2026-09-13',
+    phases: [
+      { id: 7, name: 'Phase 7', nameRu: 'Фаза 7', type: 'Base', typeRu: 'База', start: '2026-06-22', end: '2026-07-19',
+        schedule: ['Pipeline','Tokyo Disco','Athletica','Zeus','Miami Nights','Riddler','Piston'] },
+      { id: 8, name: 'Phase 8', nameRu: 'Фаза 8', type: 'Build', typeRu: 'Наращивание', start: '2026-07-20', end: '2026-08-16',
+        schedule: null },
+      { id: 9, name: 'Phase 9', nameRu: 'Фаза 9', type: 'Peak', typeRu: 'Пик', start: '2026-08-17', end: '2026-09-13',
+        schedule: null }
     ]
   }
 ];
@@ -530,7 +543,7 @@ const MONTHS_RU = ['января','февраля','марта','апреля','
 const PHASE_TYPES = {Base:'🏗️',Build:'⚡',Peak:'🔥'};
 
 // ===== STATE =====
-let currentPhaseId = 5;
+let currentPhaseId = 6;
 let currentWeek = 0;
 let currentFilter = 'all';
 
