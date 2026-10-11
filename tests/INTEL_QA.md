@@ -38,3 +38,17 @@ Setup checks executed: Hammer has 9 deduplicated equipment cards; station 3 open
 ## Equipment naming regression
 
 User screenshot exposed raw Set-based deduplication in the Exercises summary, despite normalization already existing in Setup. All summary and detail equipment labels now use WorkoutEquipment. Loyals summary must be exactly Гантели / Гиря / Диск; bodyweight is a station state, not an equipment type. Singular/plural, case and spaces normalize together. Explicit two-YBell requirement survives on stations but is not presented as a workout-wide quantity.
+
+## Full week 12–18 October completion
+
+The owner supplied the complete numbered RTF. This supersedes the earlier partial-week/pending-day results above. The fixture oct-12-18-2026.json is mechanically extracted from its eight numbered lists; every English movement is compared verbatim, including compound movements and both Hammer sides. Foxtrot fixes restore "under grip" to YBell and "seated" to BikeErg. Devil's Peak has 12 main stations plus four YGIG stages; the source calls the stages erg relays but lists plate burpees for the fourth, preserved with a visible note rather than silently inventing an erg.
+
+QA inventory:
+- All seven dates: setup/exercise buttons, correct card counts, populated Russian text/equipment, no pending labels.
+- Devil's Peak: 12 + 4 label; Э1–Э4 cards; click Э4 opens plate burpee, return restores setup; all kit appears in summary.
+- Romans: Landmine support, deadball + band, two kettlebells, heel/calf supports.
+- Mkatz: bench Arnold press remains one station; suspension support + box; GHR composite stays together.
+- Mobile 375px light/dark and desktop 1280px screenshots; 320px horizontal fit.
+- Off-path: next week does not borrow this week's data; admin flag off hides entries and on restores them.
+
+Executed: all seven dates expose both buttons, with setup/detail card counts 18/9/12/9/10/16/9. All 110 source records match the RTF fixture exactly. Devil's Peak shows 12 stations + 4 stages; Э4 opens plate burpees and returning restores scroll 247px. Reviewed Romans mobile light, Mkatz mobile dark/desktop, and the full relay section. No JS errors or horizontal overflow at 320px. Next week has zero exercise actions and seven no-data labels. Admin off/on hides/restores all seven days. All API actions used intercepted fixture responses; no production settings changed.

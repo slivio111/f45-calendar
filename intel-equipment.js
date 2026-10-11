@@ -7,6 +7,7 @@
     'Гантели':{key:'dumbbell',label:'Гантели'},
     'Гиря':{key:'kettlebell',label:'Гиря'},
     'Гири':{key:'kettlebell',label:'Гиря'},
+    'Две гири':{key:'kettlebell',label:'Гири × 2',typeLabel:'Гиря',quantity:2},
     'Диск':{key:'plate',label:'Диск'},
     'Диски':{key:'plate',label:'Диск'},
     'Штанга':{key:'barbell',label:'Штанга'},
@@ -51,7 +52,8 @@
       id:'paired-'+i,number:i+1,equipment:combine([...s.upper.equipment,...s.lower.equipment])
     }));
     return item.groups.flatMap((g,gi)=>g.exercises.map((e,i)=>({
-      id:`group-${gi}-${i}`,number:i+1,group:item.groups.length>1?g.title:null,equipment:combine(e[3])
+      id:`group-${gi}-${i}`,number:g.isRelay?'Э'+(i+1):i+1,isRelay:!!g.isRelay,
+      group:g.isRelay?'После пода '+(i+1):g.podSize?'Под '+(Math.floor(i/g.podSize)+1):item.groups.length>1?g.title:null,equipment:combine(e[3])
     })));
   }
   function tomorrow(now=new Date()){

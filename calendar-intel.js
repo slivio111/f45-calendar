@@ -41,8 +41,10 @@
       setup.innerHTML=`<h3>${item?'Расстановка уточняется':'Расстановка пока недоступна'}</h3><p class="intel-note">${item?esc(item.reason):'Для этой даты нет проверенного списка станций. Данные другого дня не подставляются.'}</p>`;
       return;
     }
-    setup.innerHTML=`<div class="intel-setup-heading"><h3>Что расставить</h3><span>${stations.length} станций</span></div>
-      <div class="intel-setup-grid">${stations.map(s=>`<button type="button" class="intel-station" data-station="${esc(s.id)}" aria-label="Станция ${s.number}: ${esc(s.equipment.join(', '))}. Открыть упражнения">
+    const relays=stations.filter(s=>s.isRelay).length;
+    setup.innerHTML=`<div class="intel-setup-heading"><h3>Что расставить</h3><span>${item.stations} станций${relays?` + ${relays} этапа`:''}</span></div>
+      ${relays?'<p class="intel-setup-note">Э1–Э4: командные этапы после каждого пода. Они показаны после 12 основных станций.</p>':''}
+      <div class="intel-setup-grid">${stations.map(s=>`<button type="button" class="intel-station" data-station="${esc(s.id)}" aria-label="${s.isRelay?'Командный этап':'Станция'} ${s.number}: ${esc(s.equipment.join(', '))}. Открыть упражнения">
         <span class="intel-station-number">${String(s.number).padStart(2,'0')}</span>
         <span class="intel-station-gear">${s.group?`<small>${esc(s.group)}</small>`:''}${s.equipment.map(g=>`<span>${esc(g)}</span>`).join('')}</span></button>`).join('')}</div>
       <p class="intel-setup-hint">${item.pairedStations?'Инвентарь Upper и Lower объединён. ':''}Нажмите на станцию, чтобы открыть упражнения.</p>
@@ -95,7 +97,7 @@
     const exercises=item.pairedStations ? `<ol class="intel-list">${item.pairedStations.map((s,i)=>`
       <li class="intel-exercise intel-pair" data-station-detail="paired-${i}" tabindex="-1"><h3>Станция ${String(i+1).padStart(2,'0')}</h3>${pairSide(s.upper,'Верх тела / Upper')}${pairSide(s.lower,'Низ тела / Lower')}</li>`).join('')}</ol>`
       : item.groups.map((g,gi)=>`<section><h3>${esc(g.title)}</h3><ol class="intel-list">${g.exercises.map((e,i)=>`
-        <li class="intel-exercise" data-station-detail="group-${gi}-${i}" tabindex="-1"><span class="intel-number" aria-label="Станция ${i+1}">${String(i+1).padStart(2,'0')}</span><div>
+        <li class="intel-exercise" data-station-detail="group-${gi}-${i}" tabindex="-1"><span class="intel-number" aria-label="${g.isRelay?'Командный этап':'Станция'} ${i+1}">${g.isRelay?'Э'+(i+1):String(i+1).padStart(2,'0')}</span><div>
         <h4>${esc(e[1])}</h4><div class="intel-en" lang="en">${esc(e[0])}</div><p class="intel-desc">${esc(e[2])}</p>
         <div class="intel-gear">Оборудование: ${esc(window.WorkoutEquipment.combine(e[3]).join(' · '))}</div></div></li>`).join('')}</ol></section>`).join('');
     panel.innerHTML=`<h3>Оборудование</h3><div class="intel-equipment">${gear.length?gear.map(g=>`<span>${esc(g)}</span>`).join(''):'<span>Без инвентаря</span>'}</div>
