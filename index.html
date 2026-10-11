@@ -279,6 +279,7 @@ body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);c
 @keyframes spin{to{transform:rotate(360deg)}}
 
 </style>
+<link rel="stylesheet" href="calendar-intel.css?v=1">
 </head>
 <body>
 
@@ -346,8 +347,8 @@ body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);c
   <div class="calendar-grid" id="calendarGrid"></div>
 </div>
 
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal" id="modal">
+<div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-header">
       <button class="modal-close" id="modalClose"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
       <div class="modal-date" id="modalDate"></div>
@@ -368,21 +369,38 @@ body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);c
 <script>
 
 // ===== AUTH =====
-const AUTH_USERS = [
-  { email: 'vveltischev@gmail.com',           password: 'Moscow123!',  name: 'Вельтищев Вячеслав' },
-  { email: 'valentina.shpigun95@gmail.com',   password: 'Valya2026!',  name: 'Ковригина Валя' },
-  { email: 'zaxvatovmaks50@gmail.com',         password: 'Maxim2026!',  name: 'Захватов Максим' },
-  { email: 'crosellben97@mail.ru',             password: 'Kristi2026!', name: 'Росель Бенавидес Кристина' },
-];
+// Login is verified by the Playbook backend; no credentials are shipped to browsers.
 
 const AUTH_KEY = 'f45_auth_v1';
+const CALENDAR_API_URL = 'https://script.google.com/macros/s/AKfycbx0QfNqXwU4rbNKNxXeYIw5ox_5_eTCU69ubgUAOHnu0vQdrKqao2ikRc2uC7Xqop5mew/exec';
+
+function calendarSession() {
+  try { return JSON.parse(sessionStorage.getItem(AUTH_KEY) || 'null'); } catch(e) { return null; }
+}
+
+async function calendarRequest(action, payload={}) {
+  const session = calendarSession();
+  const controller = new AbortController();
+  const timer = setTimeout(()=>controller.abort(),20000);
+  try {
+    const response = await fetch(CALENDAR_API_URL, {
+      method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify({...payload,action,token:session && session.token,client_ts:Date.now()}),
+      signal:controller.signal
+    });
+    if(!response.ok) return {ok:false,error:'network_error'};
+    const result = await response.json();
+    return result && typeof result.ok === 'boolean' ? result : {ok:false,error:'invalid_response'};
+  } catch(e) { return {ok:false,error:e.name==='AbortError'?'request_timeout':'network_error'}; }
+  finally { clearTimeout(timer); }
+}
 
 function checkAuth() {
   const saved = sessionStorage.getItem(AUTH_KEY);
   if (saved) {
     try {
       const d = JSON.parse(saved);
-      if (d.expires > Date.now()) {
+      if (d.token && d.expires > Date.now()) {
         document.getElementById('auth-screen').classList.add('hidden');
         return true;
       }
@@ -392,7 +410,7 @@ function checkAuth() {
   return false;
 }
 
-function doLogin() {
+async function doLogin() {
   const emailRaw = document.getElementById('auth-email').value.trim();
   const password = document.getElementById('auth-password').value;
   const errEl    = document.getElementById('auth-error');
@@ -405,18 +423,22 @@ function doLogin() {
   }
 
   const email = emailRaw.toLowerCase();
-  const user = AUTH_USERS.find(u => u.email === email && u.password === password);
-
-  if (user) {
-    // Сессия 24 часа
+  btn.disabled=true;
+  const result = await calendarRequest('login',{email,password});
+  btn.disabled=false;
+  if (result.ok && result.token) {
     sessionStorage.setItem(AUTH_KEY, JSON.stringify({
-      email: user.email,
-      name:  user.name,
-      expires: Date.now() + 24 * 60 * 60 * 1000
+      email: result.user.email, name: result.user.name,
+      token:result.token, user:result.user,
+      expires: result.expires_at || Date.now()+24*60*60*1000
     }));
+    document.getElementById('auth-password').value = '';
     document.getElementById('auth-screen').classList.add('hidden');
+    if(window.CalendarIntel) window.CalendarIntel.refresh();
   } else {
-    errEl.textContent = 'Неверный email или пароль';
+    errEl.textContent = ['network_error','request_timeout','auth_provider_unavailable'].includes(result.error)
+      ? 'Сервис входа временно недоступен. Повторите попытку.'
+      : 'Не удалось войти. Используйте учётную запись Playbook.';
     document.getElementById('auth-password').value = '';
     document.getElementById('auth-password').focus();
   }
@@ -724,6 +746,7 @@ function renderCalendar() {
       openModal(allDays[idx]);
     });
   });
+  if(window.CalendarIntel) window.CalendarIntel.decorate(allDays);
 }
 
 function renderAll() {
@@ -809,10 +832,17 @@ function openModal(day) {
   ];
   document.getElementById('modalDetails').innerHTML=details.map(d=>`<div class="detail-item"><div class="detail-label">${d.label}</div><div class="detail-value">${d.value}</div></div>`).join('');
   o.classList.add('active');
+  o.setAttribute('aria-hidden','false');
   document.body.style.overflow='hidden';
+  if(window.CalendarIntel) window.CalendarIntel.open(day);
 }
 
-function closeModal(){document.getElementById('modalOverlay').classList.remove('active');document.body.style.overflow='';}
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.getElementById('modalOverlay').setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+  if(window.CalendarIntel) window.CalendarIntel.closed();
+}
 
 // ===== EVENTS =====
 document.getElementById('prevWeek').addEventListener('click',()=>{if(currentWeek>0){currentWeek--;renderCalendar();}});
@@ -845,5 +875,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
   renderAll();
 })();
 </script>
+<script src="workout-intel.js?v=1"></script>
+<script src="calendar-intel.js?v=1"></script>
 </body>
 </html>
