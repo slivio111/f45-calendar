@@ -52,3 +52,13 @@ QA inventory:
 - Off-path: next week does not borrow this week's data; admin flag off hides entries and on restores them.
 
 Executed: all seven dates expose both buttons, with setup/detail card counts 18/9/12/9/10/16/9. All 110 source records match the RTF fixture exactly. Devil's Peak shows 12 stations + 4 stages; Э4 opens plate burpees and returning restores scroll 247px. Reviewed Romans mobile light, Mkatz mobile dark/desktop, and the full relay section. No JS errors or horizontal overflow at 320px. Next week has zero exercise actions and seven no-data labels. Admin off/on hides/restores all seven days. All API actions used intercepted fixture responses; no production settings changed.
+
+## Approved A plus optional B
+
+Scope: compact equipment cards are default; map button opens verified layout only. Six local catalogue images visually checked: Hammer and Mkatz follow-leader 9/4/3–8/5/2–7/6/1, Romans 9/6/3–8/5/2–7/4/1, Foxtrot and T10 perimeter, Loyals six A/B/C groups. Devil's Peak image is only a cover; show unavailable map explanation rather than invent coordinates. Source image remains available inline for supported maps.
+
+Exercises become compact Russian-title accordions with original English and details inside. Station clicks open matching accordion and retain setup mode/scroll on return. Entire Reddit timing block removed, along with duplicated structured timing; existing overview is untouched. Paired movement labels retained without adding a second timing summary.
+
+QA inventory: all seven days; map node selection plus drilldown/back; Loyals all six groups and A/B/C positions; unavailable Devil map; original images; accordion open/close; keyboard tabs/focus; admin off/on and unchanged refresh; tomorrow/default cards; next-week no-reuse; 375/320/1280 widths, both themes, no runtime errors.
+
+Executed: default cards on all seven dates, expected 18/9/12/9/10/16/9 counts; all six maps and original catalogue images load. Loyals six groups each return the exact three station numbers. Hammer station 3 opens paired accordion; return preserves map and scroll (86px). Station 9 card opens its own accordion. Unchanged settings polling preserves open content; off while map is open returns to overview and removes map DOM; on restores seven dates. Home/ArrowRight/Escape keyboard paths passed, tomorrow defaults to cards, next week has no reused intel. No duplicate Reddit timing block; overview timing still present. Mobile light/dark and desktop reviewed, no JS errors or horizontal overflow at 320px.

@@ -2,7 +2,7 @@
 (function(){
   'use strict';
   const db=window.WORKOUT_INTEL;
-  const state={enabled:false,renderedEnabled:null,canManage:false,version:'0',busy:false,sequence:0,day:null,tab:'overview',scroll:{},focus:null,focusIndex:null,checkedAt:0,token:null};
+  const state={enabled:false,renderedEnabled:null,canManage:false,version:'0',busy:false,sequence:0,day:null,tab:'overview',setupMode:'cards',selectedStation:1,selectedPod:1,scroll:{},focus:null,focusIndex:null,checkedAt:0,token:null};
   const overlay=document.getElementById('modalOverlay');
   const modal=document.getElementById('modal');
   const body=modal.querySelector('.modal-body');
@@ -42,13 +42,48 @@
       return;
     }
     const relays=stations.filter(s=>s.isRelay).length;
-    setup.innerHTML=`<div class="intel-setup-heading"><h3>Что расставить</h3><span>${item.stations} станций${relays?` + ${relays} этапа`:''}</span></div>
+    const layout=window.WorkoutLayouts.get(item);
+    setup.innerHTML=`<div class="intel-setup-heading"><h3>${state.setupMode==='map'?'Где поставить':'Что поставить'}</h3><span>${item.stations} станций${relays?` + ${relays} этапа`:''}</span></div>
+      <div class="intel-mode-switch"><button type="button" data-setup-mode="cards" aria-pressed="${state.setupMode==='cards'}">Карточки</button><button type="button" data-setup-mode="map" aria-pressed="${state.setupMode==='map'}" ${layout?'':'disabled'}>На схеме</button></div>
+      ${!layout?'<p class="intel-setup-hint">Схема с позициями станций пока недоступна. Расстановка и упражнения доступны в карточках.</p>':''}
+      <div id="intel-setup-cards" ${state.setupMode==='map'?'hidden':''}>
       ${relays?'<p class="intel-setup-note">Э1–Э4: командные этапы после каждого пода. Они показаны после 12 основных станций.</p>':''}
+      ${item.pairedStations?'<p class="intel-setup-note">Инвентарь Upper и Lower объединён.</p>':''}
       <div class="intel-setup-grid">${stations.map(s=>`<button type="button" class="intel-station" data-station="${esc(s.id)}" aria-label="${s.isRelay?'Командный этап':'Станция'} ${s.number}: ${esc(s.equipment.join(', '))}. Открыть упражнения">
         <span class="intel-station-number">${String(s.number).padStart(2,'0')}</span>
-        <span class="intel-station-gear">${s.group?`<small>${esc(s.group)}</small>`:''}${s.equipment.map(g=>`<span>${esc(g)}</span>`).join('')}</span></button>`).join('')}</div>
-      <p class="intel-setup-hint">${item.pairedStations?'Инвентарь Upper и Lower объединён. ':''}Нажмите на станцию, чтобы открыть упражнения.</p>
+        <span class="intel-station-gear">${s.group?`<small>${esc(s.group)}</small>`:''}<span>${esc(s.equipment[0])}</span>${s.equipment.slice(1).map(g=>`<small>+ ${esc(g)}</small>`).join('')}</span></button>`).join('')}</div>
+      <p class="intel-setup-hint">Нажмите на станцию, чтобы открыть упражнения.</p></div>
+      <div id="intel-setup-map" ${state.setupMode!=='map'?'hidden':''}>${layout?renderMap(layout,stations):''}</div>
       <p class="intel-setup-note">Вес и число комплектов на группу не заданы. «× 2» означает два снаряда в самом упражнении, не два комплекта на класс.</p>`;
+  }
+  function renderMap(layout,stations){
+    const get=n=>stations.find(s=>s.number===n);
+    const node=(n,label)=>{
+      const s=get(n);if(!s)return '';
+      const supports=s.equipment.includes('Резина для турника')&&s.equipment.includes('Резина')
+        ? ['Резины'] : s.equipment.slice(1).map(window.WorkoutLayouts.shortName);
+      return `<button type="button" class="intel-map-node" data-map-station="${n}" aria-pressed="${n===state.selectedStation}" aria-label="Станция ${n}: ${esc(s.equipment.join(', '))}">
+        <span class="intel-station-number">${esc(label||n)}</span><span>${esc(window.WorkoutLayouts.shortName(s.equipment[0]))}</span>
+        ${supports.length?`<small>+ ${esc(supports.join(' · '))}</small>`:''}
+        ${layout.directions?.[n]?`<span class="intel-map-direction" aria-hidden="true">${layout.directions[n]}</span>`:''}</button>`;
+    };
+    let map='';
+    if(layout.kind==='pods'){
+      map=`<div class="intel-map-grid" style="--map-columns:3">${layout.pods.map(p=>{
+        const eq=window.WorkoutEquipment.combine(stations.slice((p-1)*3,p*3).flatMap(s=>s.equipment));
+        return `<button type="button" class="intel-map-node intel-pod-node" data-map-pod="${p}" aria-pressed="${p===state.selectedPod}" aria-label="Группа ${p}, станции ${(p-1)*3+1}–${p*3}">
+          <b>Группа ${p}</b><span>${esc(eq.map(window.WorkoutLayouts.shortName).join(' · '))}</span><small>${(p-1)*3+1}–${p*3}</small></button>`;
+      }).join('')}</div><p class="intel-setup-hint">Группа ${state.selectedPod} · положение A / B / C</p><div class="intel-pod-detail">${[2,1,0].map(i=>node((state.selectedPod-1)*3+i+1,state.selectedPod+['A','B','C'][i])).join('')}</div>`;
+    }else{
+      map=`<div class="intel-map-grid" style="--map-columns:${layout.columns}">${layout.cells.map(n=>n?node(n):'<div class="intel-map-space" aria-hidden="true"></div>').join('')}</div>
+      ${layout.columnLabels?`<div class="intel-map-columns">${layout.columnLabels.map(l=>`<span>${esc(l)}</span>`).join('')}</div>`:''}`;
+    }
+    const selected=get(state.selectedStation)||stations[0];
+    return `<div class="intel-floor"><div class="intel-tv-row" aria-label="Сторона экранов"><span>TV</span><span>TV</span><span>TV</span></div><p class="intel-map-label">${esc(layout.movement)}</p>${map}
+      ${layout.returnLabel?`<p class="intel-map-label">${esc(layout.returnLabel)}</p>`:''}</div>
+      <div class="intel-map-selection" aria-live="polite"><div><small>Станция ${selected.number}</small><h4>${esc(selected.equipment.join(' · '))}</h4></div><button class="intel-entry intel-entry-primary" type="button" data-station="${esc(selected.id)}">Упражнения станции</button></div>
+      <p class="intel-setup-hint">Позиции по каталогу F45, не план помещения студии. Масштаб условный.${layout.note?' '+esc(layout.note):''}</p>
+      <details class="intel-original"><summary>Исходная схема F45</summary><img src="floorplans/${esc(layout.image)}" alt="Схема ${esc(state.day.workout)} из каталога F45" loading="lazy"></details>`;
   }
   function tomorrowDay(){
     const date=window.WorkoutEquipment.tomorrow();
@@ -72,14 +107,37 @@
     if(state.enabled&&day){openModal(day);selectTab('setup');}
   };
   setup.addEventListener('click',e=>{
+    if(!state.enabled)return;
+    const mode=e.target.closest('[data-setup-mode]');
+    if(mode){
+      if(mode.disabled)return;
+      state.scroll[key(state.day.date)+':setup:'+state.setupMode]=scroller.scrollTop;
+      state.setupMode=mode.dataset.setupMode;renderSetup();
+      scroller.scrollTop=state.scroll[key(state.day.date)+':setup:'+state.setupMode]||0;
+      setup.querySelector(`[data-setup-mode="${state.setupMode}"]`).focus({preventScroll:true});return;
+    }
+    const node=e.target.closest('[data-map-station]'),pod=e.target.closest('[data-map-pod]');
+    if(node||pod){
+      const pos=scroller.scrollTop;
+      if(node)state.selectedStation=+node.dataset.mapStation;
+      else{state.selectedPod=+pod.dataset.mapPod;state.selectedStation=(state.selectedPod-1)*3+1;}
+      renderSetup();scroller.scrollTop=pos;
+      const reveal=setup.querySelector(node?'.intel-map-selection':'.intel-pod-detail');
+      if(reveal){
+        const bottom=reveal.getBoundingClientRect().bottom-scroller.getBoundingClientRect().bottom;
+        if(bottom>0)scroller.scrollTop+=bottom+8;
+      }
+      setup.querySelector(node?`[data-map-station="${state.selectedStation}"]`:`[data-map-pod="${state.selectedPod}"]`).focus({preventScroll:true});return;
+    }
     const button=e.target.closest('[data-station]');
     if(!button||!state.enabled)return;
     const id=button.dataset.station;
     selectTab('exercises');
     const target=panel.querySelector(`[data-station-detail="${id}"]`);
     if(target){
+      target.open=true;
       scroller.scrollTop+=target.getBoundingClientRect().top-scroller.getBoundingClientRect().top;
-      target.focus({preventScroll:true});
+      target.querySelector('summary').focus({preventScroll:true});
     }
   });
   function renderExercises(){
@@ -91,20 +149,18 @@
       return;
     }
     const gear=window.WorkoutEquipment.summary(item);
-    const pairSide=(side,label)=>`<div class="intel-side"><h4>${label} · ${esc(side.title)}</h4>
-      ${side.variants.map((v,i)=>`<div class="intel-variant"><b>${i===0?'30':'15'} с · ${esc(v.label)}</b><div class="intel-en" lang="en">${esc(v.en)}</div></div>`).join('')}
-      <p class="intel-desc">${esc(side.description)}</p><div class="intel-gear">Оборудование: ${esc(window.WorkoutEquipment.combine(side.equipment).join(' · '))}</div></div>`;
+    const pairSide=(side,label)=>`<div class="intel-side"><p class="intel-side-label">${label}</p><h4>${esc(side.title)}</h4>
+      <p class="intel-desc">${esc(side.description)}</p>
+      ${side.variants.map(v=>`<div class="intel-variant"><b>${esc(v.label)}</b><div class="intel-en" lang="en">${esc(v.en)}</div></div>`).join('')}
+      <div class="intel-gear">Оборудование: ${esc(window.WorkoutEquipment.combine(side.equipment).join(' · '))}</div></div>`;
     const exercises=item.pairedStations ? `<ol class="intel-list">${item.pairedStations.map((s,i)=>`
-      <li class="intel-exercise intel-pair" data-station-detail="paired-${i}" tabindex="-1"><h3>Станция ${String(i+1).padStart(2,'0')}</h3>${pairSide(s.upper,'Верх тела / Upper')}${pairSide(s.lower,'Низ тела / Lower')}</li>`).join('')}</ol>`
+      <li><details class="intel-exercise intel-pair" data-station-detail="paired-${i}"><summary><span class="intel-station-number">${String(i+1).padStart(2,'0')}</span><span>${esc(s.upper.title)}<small>Низ: ${esc(s.lower.title)}</small></span></summary><div class="intel-exercise-body">${pairSide(s.upper,'Верх тела / Upper')}${pairSide(s.lower,'Низ тела / Lower')}</div></details></li>`).join('')}</ol>`
       : item.groups.map((g,gi)=>`<section><h3>${esc(g.title)}</h3><ol class="intel-list">${g.exercises.map((e,i)=>`
-        <li class="intel-exercise" data-station-detail="group-${gi}-${i}" tabindex="-1"><span class="intel-number" aria-label="${g.isRelay?'Командный этап':'Станция'} ${i+1}">${g.isRelay?'Э'+(i+1):String(i+1).padStart(2,'0')}</span><div>
-        <h4>${esc(e[1])}</h4><div class="intel-en" lang="en">${esc(e[0])}</div><p class="intel-desc">${esc(e[2])}</p>
-        <div class="intel-gear">Оборудование: ${esc(window.WorkoutEquipment.combine(e[3]).join(' · '))}</div></div></li>`).join('')}</ol></section>`).join('');
-    panel.innerHTML=`<h3>Оборудование</h3><div class="intel-equipment">${gear.length?gear.map(g=>`<span>${esc(g)}</span>`).join(''):'<span>Без инвентаря</span>'}</div>
-      <p class="intel-note">Вес и количество комплектов подберите по группе: в источнике они не заданы.</p>
-      <p class="intel-structure">${item.stations} станций · подов: ${item.pods} · сетов: ${item.sets} · кругов: ${item.laps}</p>
-      <details><summary>Тайминг по Reddit</summary><div class="intel-timing">${esc(item.timing)}</div></details>
-      ${item.note?`<p class="intel-note">${esc(item.note)}</p>`:''}
+        <li><details class="intel-exercise" data-station-detail="group-${gi}-${i}"><summary><span class="intel-station-number" aria-label="${g.isRelay?'Командный этап':'Станция'} ${i+1}">${g.isRelay?'Э'+(i+1):String(i+1).padStart(2,'0')}</span><span>${esc(e[1])}</span></summary><div class="intel-exercise-body">
+        <div class="intel-en" lang="en">${esc(e[0])}</div><p class="intel-desc">${esc(e[2])}</p>
+        <div class="intel-gear">Оборудование: ${esc(window.WorkoutEquipment.combine(e[3]).join(' · '))}</div></div></details></li>`).join('')}</ol></section>`).join('');
+    panel.innerHTML=`<details class="intel-gear-summary"><summary>Оборудование на тренировку</summary><div class="intel-equipment">${gear.length?gear.map(g=>`<span>${esc(g)}</span>`).join(''):'<span>Без инвентаря</span>'}</div></details>
+      <p class="intel-setup-hint">Нажмите на название, чтобы открыть оригинал и пояснение. Тайминг смотрите во вкладке «Обзор».</p>
       ${exercises}${source()}`;
   }
   function selectTab(tab){
@@ -148,7 +204,7 @@
     tabs.hidden=!state.enabled;
     renderQuick();
     if(!state.enabled)selectTab('overview');
-    // Polling an unchanged flag must not rebuild focused controls or collapse timing.
+    // Polling an unchanged flag must not rebuild focused controls or collapse exercises.
     if(state.renderedEnabled!==state.enabled){
       state.renderedEnabled=state.enabled;
       renderCalendar();renderExercises();renderSetup();
@@ -206,7 +262,7 @@
   window.CalendarIntel={
     decorate,refresh,
     open(day){
-      state.focus=document.activeElement;state.focusIndex=state.focus.closest('.day-card')?.dataset.index;state.day=day;state.tab='overview';scroller.scrollTop=0;
+      state.focus=document.activeElement;state.focusIndex=state.focus.closest('.day-card')?.dataset.index;state.day=day;state.tab='overview';state.setupMode='cards';state.selectedStation=1;state.selectedPod=1;scroller.scrollTop=0;
       overlay.scrollTop=0;modal.scrollTop=0;
       tabs.hidden=!state.enabled;renderExercises();renderSetup();selectTab('overview');close.focus();
       if(Date.now()-state.checkedAt>60000)refresh();
