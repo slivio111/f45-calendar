@@ -30,7 +30,7 @@
     return item && item.workout===day.workout ? item : null;
   }
   function source(){
-    return `<footer class="intel-source">Неофициальный Workout Intel. Русские описания и оборудование подготовлены для тренеров; спорные движения сверяйте со студийной демонстрацией.<br><a href="${esc(db.sourceUrl)}" target="_blank" rel="noopener noreferrer">${esc(db.sourceTitle)}</a><br>Проверено: ${esc(db.reviewedAt)}</footer>`;
+    return `<footer class="intel-source">Неофициальный Workout Intel. Русские описания и оборудование подготовлены для тренеров; спорные движения сверяйте со студийной демонстрацией.<br>Проверено: ${esc(db.reviewedAt)}</footer>`;
   }
   function renderSetup(){
     if(!state.day)return;

@@ -28,6 +28,8 @@ const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
 for(const m of html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g))new vm.Script(m[1]);
 assert(!html.includes('AUTH_USERS'));
 assert(html.includes('d.token && d.expires'));
+const ui=fs.readFileSync(path.join(root,'calendar-intel.js'),'utf8');
+assert(!ui.includes('esc(db.sourceUrl)'), 'No rendered outbound Reddit link in exercise footer');
 const original=JSON.parse(fs.readFileSync(path.join(__dirname,'oct-12-18-2026.json'),'utf8'));
 const en=date=>db.days[date].groups[0].exercises.map(e=>e[0]);
 const hammer=db.days['2026-10-15'].pairedStations;
