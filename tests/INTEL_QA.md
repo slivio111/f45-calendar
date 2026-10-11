@@ -34,3 +34,7 @@ Exploratory scenarios: switch tabs while a settings refresh completes; disable g
 - Exploratory: station drilldown followed by refresh of unchanged setting; admin disables while another user's setup is open.
 
 Setup checks executed: Hammer has 9 deduplicated equipment cards; station 3 opens its paired details; Loyals station 18 drilldown restores setup scroll (195px). Tomorrow correctly opens 12 October / Loyals even from Phase 11 / Hammer; pending Romans has no setup cards. Admin off hides both entry points and tomorrow. ArrowRight/Home navigate the three tabs. No page errors or horizontal overflow at 375px/1280px; mobile Hammer's nine cards fit without scrolling at 375×812.
+
+## Equipment naming regression
+
+User screenshot exposed raw Set-based deduplication in the Exercises summary, despite normalization already existing in Setup. All summary and detail equipment labels now use WorkoutEquipment. Loyals summary must be exactly Гантели / Гиря / Диск; bodyweight is a station state, not an equipment type. Singular/plural, case and spaces normalize together. Explicit two-YBell requirement survives on stations but is not presented as a workout-wide quantity.

@@ -5,18 +5,27 @@
   const aliases={
     'Гантель':{key:'dumbbell',label:'Гантели'},
     'Гантели':{key:'dumbbell',label:'Гантели'},
+    'Гиря':{key:'kettlebell',label:'Гиря'},
+    'Гири':{key:'kettlebell',label:'Гиря'},
+    'Диск':{key:'plate',label:'Диск'},
+    'Диски':{key:'plate',label:'Диск'},
+    'Штанга':{key:'barbell',label:'Штанга'},
+    'Штанги':{key:'barbell',label:'Штанга'},
     'YBell':{key:'ybell',label:'YBell'},
-    'Два YBell':{key:'ybell',label:'YBell × 2',quantity:2},
+    'Два YBell':{key:'ybell',label:'YBell × 2',typeLabel:'YBell',quantity:2},
     'Резина для подтягиваний':{key:'pullup-band',label:'Резина для турника'},
     'Степ-платформа':{key:'step',label:'Степ'},
-    'Без оборудования':{key:'floor',label:'Без инвентаря'}
+    'Без оборудования':{key:'floor',label:'Без инвентаря'},
+    'Без инвентаря':{key:'floor',label:'Без инвентаря'}
   };
-  function combine(items){
+  const lookup=Object.fromEntries(Object.entries(aliases).map(([name,item])=>[name.toLocaleLowerCase('ru'),item]));
+  function combine(items,{typesOnly=false,includeFloor=true}={}){
     const equipment=new Map();
     for(const raw of items){
-      const clean=String(raw).trim();
+      const clean=String(raw).trim().replace(/\s+/g,' ');
       if(!clean)continue;
-      const item=aliases[clean]||{key:clean.toLowerCase(),label:clean};
+      const item=lookup[clean.toLocaleLowerCase('ru')]||{key:clean.toLocaleLowerCase('ru'),label:clean};
+      if(!includeFloor && item.key==='floor')continue;
       const prev=equipment.get(item.key);
       // Shared equipment, not one additional set for each movement or side.
       if(!prev || (item.quantity||0)>(prev.quantity||0))equipment.set(item.key,{...item});
@@ -25,7 +34,16 @@
       equipment.delete('floor');
       equipment.set('floor',{key:'floor',label:'Место на полу'});
     }
-    return [...equipment.values()].map(e=>e.label);
+    return [...equipment.values()].map(e=>typesOnly?(e.typeLabel||e.label):e.label);
+  }
+  function summary(item){
+    if(!item || item.status!=='published')return [];
+    const items=item.pairedStations
+      ? item.pairedStations.flatMap(s=>[...s.upper.equipment,...s.lower.equipment])
+      : item.groups.flatMap(g=>g.exercises.flatMap(e=>e[3]));
+    // A workout-wide list names equipment types, not per-exercise counts.
+    // Bodyweight stations remain labelled in their own cards.
+    return combine(items,{typesOnly:true,includeFloor:false});
   }
   function stations(item){
     if(!item || item.status!=='published')return [];
@@ -42,5 +60,5 @@
     }).formatToParts(now).filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));
     return new Date(Date.UTC(+parts.year,+parts.month-1,+parts.day+1)).toISOString().slice(0,10);
   }
-  window.WorkoutEquipment={combine,stations,tomorrow};
+  window.WorkoutEquipment={combine,summary,stations,tomorrow};
 })();

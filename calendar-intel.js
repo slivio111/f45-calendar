@@ -88,19 +88,17 @@
       panel.innerHTML=`<h3>${item?'Список упражнений уточняется':'Упражнения пока не опубликованы'}</h3><p class="intel-note">${item?esc(item.reason):'Для этой даты ещё нет проверенного списка. Упражнения другого дня не подставляются.'}</p>${item?source():''}`;
       return;
     }
-    const gear=[...new Set(item.pairedStations
-      ? item.pairedStations.flatMap(s=>[...s.upper.equipment,...s.lower.equipment])
-      : item.groups.flatMap(g=>g.exercises.flatMap(e=>e[3])))];
+    const gear=window.WorkoutEquipment.summary(item);
     const pairSide=(side,label)=>`<div class="intel-side"><h4>${label} · ${esc(side.title)}</h4>
       ${side.variants.map((v,i)=>`<div class="intel-variant"><b>${i===0?'30':'15'} с · ${esc(v.label)}</b><div class="intel-en" lang="en">${esc(v.en)}</div></div>`).join('')}
-      <p class="intel-desc">${esc(side.description)}</p><div class="intel-gear">Оборудование: ${esc(side.equipment.join(' · '))}</div></div>`;
+      <p class="intel-desc">${esc(side.description)}</p><div class="intel-gear">Оборудование: ${esc(window.WorkoutEquipment.combine(side.equipment).join(' · '))}</div></div>`;
     const exercises=item.pairedStations ? `<ol class="intel-list">${item.pairedStations.map((s,i)=>`
       <li class="intel-exercise intel-pair" data-station-detail="paired-${i}" tabindex="-1"><h3>Станция ${String(i+1).padStart(2,'0')}</h3>${pairSide(s.upper,'Верх тела / Upper')}${pairSide(s.lower,'Низ тела / Lower')}</li>`).join('')}</ol>`
       : item.groups.map((g,gi)=>`<section><h3>${esc(g.title)}</h3><ol class="intel-list">${g.exercises.map((e,i)=>`
         <li class="intel-exercise" data-station-detail="group-${gi}-${i}" tabindex="-1"><span class="intel-number" aria-label="Станция ${i+1}">${String(i+1).padStart(2,'0')}</span><div>
         <h4>${esc(e[1])}</h4><div class="intel-en" lang="en">${esc(e[0])}</div><p class="intel-desc">${esc(e[2])}</p>
-        <div class="intel-gear">Оборудование: ${esc(e[3].join(' · '))}</div></div></li>`).join('')}</ol></section>`).join('');
-    panel.innerHTML=`<h3>Оборудование</h3><div class="intel-equipment">${gear.map(g=>`<span>${esc(g)}</span>`).join('')}</div>
+        <div class="intel-gear">Оборудование: ${esc(window.WorkoutEquipment.combine(e[3]).join(' · '))}</div></div></li>`).join('')}</ol></section>`).join('');
+    panel.innerHTML=`<h3>Оборудование</h3><div class="intel-equipment">${gear.length?gear.map(g=>`<span>${esc(g)}</span>`).join(''):'<span>Без инвентаря</span>'}</div>
       <p class="intel-note">Вес и количество комплектов подберите по группе: в источнике они не заданы.</p>
       <p class="intel-structure">${item.stations} станций · подов: ${item.pods} · сетов: ${item.sets} · кругов: ${item.laps}</p>
       <details><summary>Тайминг по Reddit</summary><div class="intel-timing">${esc(item.timing)}</div></details>
