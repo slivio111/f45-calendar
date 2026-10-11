@@ -22,3 +22,15 @@ Exploratory scenarios: switch tabs while a settings refresh completes; disable g
 - Tab scroll position restored (900px before/after). Keyboard Escape, timing disclosure, pending-day message and next-week no-reuse verified.
 - Server login UI tested with synthetic credentials and intercepted responses. No real credentials or production mutations used.
 - Mobile 375px and desktop 1280px screenshots reviewed in both themes; no horizontal overflow at these sizes, no page JavaScript errors.
+
+## Setup mode QA inventory
+
+- Two-column equipment cards, no exercise prose; Upper/Lower union removes duplicates but keeps supports and explicit per-exercise quantities.
+- Day has Setup and Exercises entry points; click station -> matching detailed station -> Setup returns to previous position.
+- Three tabs support keyboard arrows, Home/End, focus trap, Escape and focus return.
+- Tomorrow shortcut uses Europe/Moscow, can cross phase/year boundary; unavailable or unreviewed dates never borrow another day's setup.
+- Shared admin switch covers both modes; off/error/old backend hide setup and tomorrow shortcut. Unchanged polling preserves the current tab and scroll.
+- Screenshots at 375px and 1280px, both themes; verify 320px fit.
+- Exploratory: station drilldown followed by refresh of unchanged setting; admin disables while another user's setup is open.
+
+Setup checks executed: Hammer has 9 deduplicated equipment cards; station 3 opens its paired details; Loyals station 18 drilldown restores setup scroll (195px). Tomorrow correctly opens 12 October / Loyals even from Phase 11 / Hammer; pending Romans has no setup cards. Admin off hides both entry points and tomorrow. ArrowRight/Home navigate the three tabs. No page errors or horizontal overflow at 375px/1280px; mobile Hammer's nine cards fit without scrolling at 375×812.

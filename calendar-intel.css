@@ -39,17 +39,39 @@
 .intel-variant{margin-top:12px;line-height:1.5;font-size:var(--text-sm)}
 .intel-variant b{display:block;margin-bottom:4px}
 .intel-panel button{min-height:44px}
+.intel-day-actions{display:flex;gap:8px;flex-wrap:wrap;width:100%;margin-top:8px}
+.intel-day-actions .intel-entry{flex:1;margin:0;text-align:center}
+.intel-entry-primary{background:var(--f45-red);border-color:var(--f45-red);color:#fff}
+.intel-tomorrow{display:flex;flex-direction:column;gap:4px;width:100%;margin-bottom:16px;text-align:left;padding:12px 16px;min-height:64px;border:1px solid var(--color-border);border-left:4px solid var(--f45-red);border-radius:var(--radius-lg);background:var(--color-surface);color:var(--color-text);font:inherit;cursor:pointer}
+.intel-tomorrow>span{font-weight:800;font-size:var(--text-base)}
+.intel-tomorrow>small{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.4}
+.intel-tomorrow:disabled{cursor:default;opacity:.7}
+.intel-setup{padding:16px var(--space-6) max(20px,env(safe-area-inset-bottom))}
+.intel-setup-heading{display:flex;justify-content:space-between;gap:8px;align-items:baseline;margin-bottom:12px}
+.intel-setup-heading h3{font-size:var(--text-base);font-weight:800;margin:0}
+.intel-setup-heading>span{font-size:var(--text-sm);color:var(--color-text-muted);white-space:nowrap}
+.intel-setup-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.intel-station{display:flex;align-items:flex-start;gap:10px;padding:12px;min-height:68px;width:100%;border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-surface-2);color:var(--color-text);text-align:left;cursor:pointer;font:inherit}
+.intel-station:hover{border-color:var(--f45-red)}
+.intel-station-number{font-size:var(--text-sm);font-weight:800;color:var(--color-text-muted);font-variant-numeric:tabular-nums;line-height:1.5}
+.intel-station-gear{display:flex;flex-direction:column;gap:3px;min-width:0;font-size:var(--text-sm);font-weight:750;line-height:1.4;overflow-wrap:anywhere}
+.intel-station-gear small{font-size:var(--text-xs);font-weight:500}
+.intel-setup-hint{margin:12px 0 8px;font-size:var(--text-sm);line-height:1.5;color:var(--color-text-muted)}
+.intel-setup-note{margin:0;font-size:var(--text-xs);line-height:1.5;color:var(--color-text-muted)}
+.intel-tomorrow:focus-visible{outline:3px solid var(--f45-red);outline-offset:3px}
 .intel-entry:focus-visible,.modal button:focus-visible,.intel-admin input:focus-visible,.intel-panel summary:focus-visible{outline:3px solid var(--f45-red);outline-offset:3px}
 @media(max-width:768px){
  .series-tabs{flex-wrap:wrap}
  .day-card{flex-wrap:wrap}
- .intel-entry,.intel-empty-label{flex-basis:100%;margin-top:0}
+ .intel-empty-label{flex-basis:100%;margin-top:0}
+ .intel-day-actions{flex-basis:100%;margin-top:0}
  .modal-overlay{padding:0;background:var(--color-surface)}
  .modal{max-width:none;width:100%;height:100dvh;max-height:100dvh;border:0;border-radius:0;transform:none}
  .modal-header{padding:16px 72px 12px 16px;padding-top:max(16px,env(safe-area-inset-top))}
  .modal-title{font-size:var(--text-xl)}
- .modal-tabs{padding:0 16px 12px}
- .modal-body,.intel-panel{padding-left:16px;padding-right:16px}
+ .modal-tabs{padding:0 12px 12px;gap:4px}
+ .modal-tabs button{padding:8px 4px;font-size:var(--text-sm);min-width:0}
+ .modal-body,.intel-panel,.intel-setup{padding-left:16px;padding-right:16px}
  .modal-header::before{border-radius:0}
  .modal-close{top:12px;right:12px}
 }
